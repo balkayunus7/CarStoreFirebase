@@ -1,7 +1,11 @@
+import 'package:carstore/feauture/login/login_view.dart';
+import 'package:carstore/product/initealize/appliaction_start.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  await AppliactionStart.init();
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -24,7 +28,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: ,
+      home: const LoginView(),
     );
   }
 }
