@@ -1,4 +1,4 @@
-import 'package:carstore/feauture/login/login_view.dart';
+import 'package:carstore/feauture/home/home_view.dart';
 import 'package:carstore/product/initealize/appliaction_start.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: const LoginView(),
+      home: const HomeView(),
     );
   }
 }
