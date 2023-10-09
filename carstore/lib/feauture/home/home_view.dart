@@ -1,3 +1,4 @@
+import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/models/cars.dart';
 import 'package:carstore/product/utilities/exception/custom_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,8 +13,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  // FutureBuilder ile veri çekme işlemi
-  // ya da Data init olduğu anda veri çekip set state ile güncelleme
   @override
   Widget build(BuildContext context) {
     final CollectionReference cars =
@@ -30,7 +29,10 @@ class _HomeViewState extends State<HomeView> {
     ).get();
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(StringConstants.appName),
+      ),
       body: FutureBuilder(
         future: response,
         builder: (context, AsyncSnapshot<QuerySnapshot<Cars?>> snapshot) {
@@ -41,29 +43,36 @@ class _HomeViewState extends State<HomeView> {
             case ConnectionState.active:
               return const LinearProgressIndicator();
             case ConnectionState.done:
+              // Snapshot has data
               if (snapshot.hasData) {
                 final values =
                     snapshot.data!.docs.map((e) => e.data()).toList();
                 return ListView.builder(
                   itemCount: values.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      child: Column(
-                        children: [
-                          Image.network(
-                            values[index]?.backgroundImage ?? '',
-                            height: context.sized.dynamicHeight(.1),
-                          ),
-                          Text(
-                            values[index]?.title ?? '',
-                            style: context.general.textTheme.labelLarge,
-                          )
-                        ],
+                    return Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Card(
+                        child: Column(
+                          children: [
+                            Image.network(
+                              values[index]?.backgroundImage ?? '',
+                              height: context.sized.dynamicHeight(.1),
+                            ),
+                            Text(
+                              values[index]?.title ?? '',
+                              style: context.general.textTheme.labelLarge,
+                            ),
+                            Text(values[index]?.category ?? ''),
+                          ],
+                        ),
                       ),
                     );
                   },
                 );
-              } else {
+              }
+              // snapshot has no data show sizedbox
+              else {
                 return const SizedBox();
               }
           }

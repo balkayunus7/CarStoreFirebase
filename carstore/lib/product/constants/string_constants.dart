@@ -4,5 +4,5 @@ import 'package:flutter/material.dart';
 class StringConstants {
   const StringConstants._();
 
-  static const String appName = "Flutter Demo";
+  static const String appName = ' Carstore';
 }

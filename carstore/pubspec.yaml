@@ -32,6 +32,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  animated_text_kit: ^4.2.2
   #CORE
   easy_localization: ^3.0.3
   flutter_riverpod: ^2.4.3
