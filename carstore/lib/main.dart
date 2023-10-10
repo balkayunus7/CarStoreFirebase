@@ -1,5 +1,6 @@
 import 'package:carstore/feauture/splash/splash_view.dart';
-import 'package:carstore/product/initealize/appliaction_start.dart';
+import 'package:carstore/product/constants/string_constants.dart';
+import 'package:carstore/product/initealize/application_start.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: StringConstants.appName,
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData.dark(),
       theme: ThemeData(

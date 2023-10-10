@@ -1,3 +1,4 @@
+import 'package:carstore/product/enums/platform_enum.dart';
 import 'package:carstore/product/models/numbers.dart';
 import 'package:carstore/product/utilities/firebase/firebase_collections.dart';
 import 'package:carstore/product/utilities/version_manager.dart';
@@ -36,7 +37,7 @@ class SplashProvider extends StateNotifier<SplashState> {
             return value.toJson();
           },
         )
-        .doc()
+        .doc(PlatformEnum.versionName)
         .get();
     return response.data()?.number;
   }

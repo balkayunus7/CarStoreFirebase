@@ -1,3 +1,4 @@
+import 'package:carstore/feauture/home/home_view.dart';
 import 'package:carstore/feauture/splash/splash_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
@@ -23,7 +24,11 @@ class _SplashViewState extends ConsumerState<SplashView> {
   @override
   void initState() {
     super.initState();
-    // Old and new states in splashProvider were compared with the Listen method
+    ref.read(splashProvider.notifier).checkAppliactionVersion('1.0.0');
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ref.listen(splashProvider, (previous, next) {
       if (next.isRequriedForceUpdate ?? false) {
         showAboutDialog(context: context);
@@ -31,20 +36,25 @@ class _SplashViewState extends ConsumerState<SplashView> {
       }
       if (next.isRedirectHome != null) {
         // ignore: use_if_null_to_convert_nulls_to_bools
-        if (next.isRedirectHome == true) {
-          // got to page
+        if (next.isRedirectHome!) {
+          context.route.navigateToPage(const HomeView());
         } else {
           // stay in page
         }
       }
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: ColorConstants.primaryOrange,
-      body: Center(child: WavyText(title: StringConstants.appName)),
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: context.padding.onlyTopLow,
+            child: const WavyText(title: StringConstants.appName),
+          ),
+        ],
+      )),
     );
   }
 }
