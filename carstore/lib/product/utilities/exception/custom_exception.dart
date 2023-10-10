@@ -7,3 +7,13 @@ class CustomFirebaseException implements Exception {
     return '$this  $description';
   }
 }
+
+class CustomVersionException implements Exception {
+  CustomVersionException(this.description);
+
+  final String description;
+  @override
+  String toString() {
+    return '$this  $description';
+  }
+}

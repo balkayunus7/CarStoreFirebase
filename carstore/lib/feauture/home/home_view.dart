@@ -23,6 +23,7 @@ class _HomeViewState extends State<HomeView> {
         return Cars().fromFirebase(snapshot);
       },
       toFirestore: (value, options) {
+        // ignore: unnecessary_null_comparison
         if (value == null) throw CustomFirebaseException('$value is null');
         return value.toJson();
       },
