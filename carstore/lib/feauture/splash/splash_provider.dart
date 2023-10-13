@@ -23,7 +23,7 @@ class SplashProvider extends StateNotifier<SplashState> {
       return;
     }
 
-    state = state.copyWith(isRequriedForceUpdate: true);
+    state = state.copyWith(isRedirectHome: true);
   }
 
   Future<String?> getVersionNumberFromDatabase() async {

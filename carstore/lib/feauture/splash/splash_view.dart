@@ -2,6 +2,7 @@ import 'package:carstore/feauture/home/home_view.dart';
 import 'package:carstore/feauture/splash/splash_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
+import 'package:carstore/product/enums/image_constants.dart';
 import 'package:carstore/product/widget/text/wavy_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +15,8 @@ class SplashView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _SplashViewState();
 }
 
-class _SplashViewState extends ConsumerState<SplashView> {
+class _SplashViewState extends ConsumerState<SplashView>
+    with _SplashViewListenMixin {
   // Splash Provider defined
   final splashProvider =
       StateNotifierProvider<SplashProvider, SplashState>((ref) {
@@ -29,32 +31,43 @@ class _SplashViewState extends ConsumerState<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(splashProvider, (previous, next) {
+    listenAndNavigate(splashProvider);
+    return Scaffold(
+      backgroundColor: ColorConstants.primaryOrange,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconConstants.car.toImage,
+            Padding(
+              padding: context.padding.onlyTopLow,
+              child: const WavyText(title: StringConstants.appName),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+mixin _SplashViewListenMixin on ConsumerState<SplashView> {
+  void listenAndNavigate(
+    StateNotifierProvider<SplashProvider, SplashState> provider,
+  ) {
+    ref.listen(provider, (previous, next) {
       if (next.isRequriedForceUpdate ?? false) {
         showAboutDialog(context: context);
         return;
       }
       if (next.isRedirectHome != null) {
-        // ignore: use_if_null_to_convert_nulls_to_bools
         if (next.isRedirectHome!) {
-          context.route.navigateToPage(const HomeView());
+          Future.delayed(const Duration(milliseconds: 2250), () {
+            context.route.navigateToPage(const HomeView());
+          });
         } else {
-          // stay in page
+          // false
         }
       }
     });
-    return Scaffold(
-      backgroundColor: ColorConstants.primaryOrange,
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: context.padding.onlyTopLow,
-            child: const WavyText(title: StringConstants.appName),
-          ),
-        ],
-      )),
-    );
   }
 }

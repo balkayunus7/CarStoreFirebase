@@ -1,5 +1,5 @@
 enum ImageSize {
-  height(256);
+  height(70);
 
   final int value;
 
