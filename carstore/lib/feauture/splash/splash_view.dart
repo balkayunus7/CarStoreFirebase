@@ -56,7 +56,7 @@ mixin _SplashViewListenMixin on ConsumerState<SplashView> {
   ) {
     ref.listen(provider, (previous, next) {
       if (next.isRequriedForceUpdate ?? false) {
-        showAboutDialog(context: context);
+        //  showAboutDialog(context: context);
         return;
       }
       if (next.isRedirectHome != null) {

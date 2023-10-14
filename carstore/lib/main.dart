@@ -1,5 +1,6 @@
-import 'package:carstore/feauture/splash/splash_view.dart';
+import 'package:carstore/feauture/auth/authenticaiton_view.dart';
 import 'package:carstore/product/constants/string_constants.dart';
+import 'package:carstore/product/initealize/app_theme.dart';
 import 'package:carstore/product/initealize/application_start.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,8 +12,8 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   // This widget is the root of your application.
   @override
@@ -20,16 +21,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: StringConstants.appName,
       debugShowCheckedModeBanner: false,
-      darkTheme: ThemeData.dark(),
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-      ),
-      home: const SplashView(),
+      home: const AuthenticaitonView(),
+      theme: AppTheme(context: context).theme,
     );
   }
 }
