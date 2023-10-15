@@ -9,7 +9,10 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationState> {
   Future<void> fetchUserDetail(User? user) async {
     if (user == null) return;
     final token = await user.getIdToken();
-    await tokenSaveToCache(token!);
+    if (token != null) {
+      await tokenSaveToCache(token);
+    }
+
     state = state.copyWith(isRedirect: true);
   }
 
@@ -24,8 +27,13 @@ class AuthenticationState extends Equatable {
   final bool isRedirect;
 
   @override
-  List<Object?> get props => [isRedirect];
-  AuthenticationState copyWith({bool? isRedirect}) {
-    return AuthenticationState(isRedirect: isRedirect ?? this.isRedirect);
+  List<Object> get props => [isRedirect];
+
+  AuthenticationState copyWith({
+    bool? isRedirect,
+  }) {
+    return AuthenticationState(
+      isRedirect: isRedirect ?? this.isRedirect,
+    );
   }
 }

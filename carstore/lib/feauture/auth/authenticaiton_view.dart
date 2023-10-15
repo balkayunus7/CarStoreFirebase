@@ -1,5 +1,8 @@
 import 'package:carstore/feauture/auth/authenticaiton_provider.dart';
+import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
+import 'package:carstore/product/widget/text/subtitle_text.dart';
+import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart' as firebase;
 import 'package:flutter/material.dart';
@@ -21,12 +24,6 @@ class _AuthenticaitonViewState extends ConsumerState<AuthenticaitonView> {
     return AuthenticationNotifier();
   });
 
-  @override
-  void initState() {
-    super.initState();
-    checkUser(FirebaseAuth.instance.currentUser);
-  }
-
   void checkUser(User? user) {
     ref.read(authProvider.notifier).fetchUserDetail(user);
   }
@@ -39,6 +36,7 @@ class _AuthenticaitonViewState extends ConsumerState<AuthenticaitonView> {
           firebase.AuthStateChangeAction<firebase.SignedIn>((context, state) {
             if (state.user != null) {
               checkUser(state.user);
+              print('Here ${state.user}');
             }
           }),
         ],
@@ -49,17 +47,8 @@ class _AuthenticaitonViewState extends ConsumerState<AuthenticaitonView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const _header(),
-                  Padding(
-                    padding: context.padding.normal,
-                    child: firebase.LoginView(
-                      showTitle: false,
-                      action: firebase.AuthAction.signIn,
-                      providers: firebase.FirebaseUIAuth.providersFor(
-                        FirebaseAuth.instance.app,
-                      ),
-                    ),
-                  ),
+                  const _Header(),
+                  const _FirebaseAuth(),
                   if (ref.watch(authProvider).isRedirect)
                     TextButton(
                       onPressed: () {},
@@ -82,12 +71,26 @@ class _AuthenticaitonViewState extends ConsumerState<AuthenticaitonView> {
   }
 }
 
-// ignore: camel_case_types
-class _header extends StatelessWidget {
-  const _header({
-    // ignore: unused_element
-    super.key,
-  });
+class _FirebaseAuth extends StatelessWidget {
+  const _FirebaseAuth();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: context.padding.normal,
+      child: firebase.LoginView(
+        showTitle: false,
+        action: firebase.AuthAction.signIn,
+        providers: firebase.FirebaseUIAuth.providersFor(
+          FirebaseAuth.instance.app,
+        ),
+      ),
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  const _Header();
 
   @override
   Widget build(BuildContext context) {
@@ -96,15 +99,14 @@ class _header extends StatelessWidget {
         const SizedBox(height: 20),
         Padding(
           padding: context.padding.onlyBottomLow,
-          child: Text(
-            StringConstants.login,
-            style: context.general.textTheme.headlineSmall
-                ?.copyWith(fontWeight: FontWeight.bold),
+          child: const TitleText(
+            title: StringConstants.login,
+            color: ColorConstants.primaryOrange,
           ),
         ),
-        Text(
-          StringConstants.welcomeBack,
-          style: context.general.textTheme.titleMedium,
+        const SubtitleText(
+          subtitle: StringConstants.welcomeBack,
+          color: ColorConstants.primaryGrey,
         ),
       ],
     );

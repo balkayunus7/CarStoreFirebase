@@ -1,5 +1,6 @@
 enum WidgetSize {
-  butttonNormal(56);
+  butttonNormal(56),
+  iconNormal(30);
 
   final int value;
 

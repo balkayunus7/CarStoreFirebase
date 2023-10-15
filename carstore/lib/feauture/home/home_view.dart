@@ -1,84 +1,233 @@
+import 'package:carstore/feauture/home/sub_view/home_chips.dart';
+import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
-import 'package:carstore/product/models/cars.dart';
-import 'package:carstore/product/utilities/exception/custom_exception.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:carstore/product/enums/index.dart';
+import 'package:carstore/product/widget/text/subtitle_text.dart';
+import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  Widget build(BuildContext context) {
+    return Material(
+      child: SafeArea(
+        child: ListView(
+          padding: context.padding.normal,
+          children: const [
+            Header(),
+            _CustomTextfield(),
+            _TagsListview(),
+            _BrowseHorizontalListview(),
+            _RecommendedHeader(),
+            _RecommendedWidget(),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
-class _HomeViewState extends State<HomeView> {
+// Custom textfield for search
+
+class _CustomTextfield extends StatelessWidget {
+  const _CustomTextfield();
+
   @override
   Widget build(BuildContext context) {
-    final CollectionReference cars =
-        FirebaseFirestore.instance.collection('cars');
-
-    final response = cars.withConverter(
-      fromFirestore: (snapshot, options) {
-        return Cars().fromFirebase(snapshot);
-      },
-      toFirestore: (value, options) {
-        // ignore: unnecessary_null_comparison
-        if (value == null) throw CustomFirebaseException('$value is null');
-        return value.toJson();
-      },
-    ).get();
-
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(StringConstants.appName),
+    return TextField(
+      decoration: InputDecoration(
+        filled: true,
+        hintText: StringConstants.textfieldSearch,
+        prefixIcon: const Icon(Icons.search),
+        suffixIcon: const Icon(Icons.mic_outlined),
+        fillColor: ColorConstants.textFieldGrey,
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(10),
+        ),
       ),
-      body: FutureBuilder(
-        future: response,
-        builder: (context, AsyncSnapshot<QuerySnapshot<Cars?>> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return const Placeholder();
-            case ConnectionState.waiting:
-            case ConnectionState.active:
-              return const LinearProgressIndicator();
-            case ConnectionState.done:
-              // Snapshot has data
-              if (snapshot.hasData) {
-                final values =
-                    snapshot.data!.docs.map((e) => e.data()).toList();
-                return ListView.builder(
-                  itemCount: values.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Card(
-                        child: Column(
-                          children: [
-                            Image.network(
-                              values[index]?.backgroundImage ?? '',
-                              height: context.sized.dynamicHeight(.1),
-                            ),
-                            Text(
-                              values[index]?.title ?? '',
-                              style: context.general.textTheme.labelLarge,
-                            ),
-                            Text(values[index]?.category ?? ''),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              }
-              // snapshot has no data show sizedbox
-              else {
-                return const SizedBox();
-              }
+    );
+  }
+}
+
+// Tags for search tags
+class _TagsListview extends StatelessWidget {
+  const _TagsListview();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: context.sized.dynamicHeight(.1),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          if (index.isOdd) {
+            return const ActiveChip();
           }
+          return const PassiveChip();
         },
       ),
+    );
+  }
+}
+
+// Browse Horizontal Listview for browse cars listview
+class _BrowseHorizontalListview extends StatelessWidget {
+  const _BrowseHorizontalListview();
+  static const dummyImage =
+      'https://firebasestorage.googleapis.com/v0/b/car-store-615be.appspot.com/o/Tesla.png?alt=media&token=a9258805-9913-498b-be93-408ff9f4e93c&_gl=1*gdytms*_ga*MTg0MjQxMzcyNy4xNjk2Njg4MTAw*_ga_CW55HF8NVT*MTY5NzM4ODEzNy4xMi4xLjE2OTczODgyMjMuNjAuMC4w';
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: context.sized.dynamicHeight(.2),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          return const _HorizontalCard(dummyImage: dummyImage);
+        },
+      ),
+    );
+  }
+}
+
+class _HorizontalCard extends StatelessWidget {
+  const _HorizontalCard({
+    required this.dummyImage,
+  });
+
+  final String dummyImage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Padding(
+          padding: context.padding.onlyRightNormal,
+          child: Image.network(dummyImage),
+        ),
+        Positioned.fill(
+          child: Padding(
+            padding: context.padding.onlyRightNormal,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.bookmark_add_outlined,
+                    size: WidgetSize.iconNormal.value.toDouble(),
+                    color: ColorConstants.primaryGrey,
+                  ),
+                ),
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 60, right: 27),
+                  child: Column(
+                    children: [
+                      const SubtitleText(
+                        subtitle: 'CEDAN',
+                        color: ColorConstants.primaryWhite,
+                      ),
+                      Text(
+                        'Tesla Model 3 Standard Range Plus',
+                        style: context.general.textTheme.bodyLarge
+                            ?.copyWith(color: ColorConstants.primaryWhite),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+// RecommendedHeader for recommended cars card widgets titles
+class _RecommendedHeader extends StatelessWidget {
+  const _RecommendedHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: context.padding.onlyTopLow,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Expanded(
+            child: TitleText(
+              title: StringConstants.homeTitle,
+              color: Colors.black,
+            ),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: const SubtitleText(
+              subtitle: StringConstants.homeSeeAll,
+              color: ColorConstants.primaryGrey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// RecomandedWidget for recemanded cars card widgets
+class _RecommendedWidget extends StatelessWidget {
+  const _RecommendedWidget();
+
+  static const dummyImage =
+      'https://firebasestorage.googleapis.com/v0/b/car-store-615be.appspot.com/o/Rectangle%2013.png?alt=media&token=2841a39e-0db2-4ec3-8763-d587fbf76726&_gl=1*1ppf73v*_ga*MTg0MjQxMzcyNy4xNjk2Njg4MTAw*_ga_CW55HF8NVT*MTY5NzM4ODEzNy4xMi4xLjE2OTczOTA1NTguNjAuMC4w';
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 5,
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: Image.network(dummyImage),
+        );
+      },
+    );
+  }
+}
+
+// Header for home page titles
+class Header extends StatelessWidget {
+  const Header({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: context.padding.onlyTopMedium,
+          child: const TitleText(
+              title: StringConstants.homeBrowse,
+              color: ColorConstants.primaryOrange),
+        ),
+        Padding(
+          padding: context.padding.verticalLow,
+          child: const SubtitleText(
+            subtitle: StringConstants.homeMessage,
+            color: ColorConstants.primaryGrey,
+          ),
+        ),
+      ],
     );
   }
 }

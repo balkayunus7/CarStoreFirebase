@@ -1,4 +1,4 @@
-import 'package:carstore/feauture/auth/authenticaiton_view.dart';
+import 'package:carstore/feauture/home/home_view.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/initealize/app_theme.dart';
 import 'package:carstore/product/initealize/application_start.dart';
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: StringConstants.appName,
       debugShowCheckedModeBanner: false,
-      home: const AuthenticaitonView(),
+      home: const HomeView(),
       theme: AppTheme(context: context).theme,
     );
   }
