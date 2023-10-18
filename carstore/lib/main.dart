@@ -1,5 +1,6 @@
 import 'package:carstore/feauture/home/home_view.dart';
 import 'package:carstore/product/constants/string_constants.dart';
+import 'package:carstore/product/initealize/app_builder.dart';
 import 'package:carstore/product/initealize/app_theme.dart';
 import 'package:carstore/product/initealize/application_start.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, child) => AppBuilder(child).build(),
       title: StringConstants.appName,
       debugShowCheckedModeBanner: false,
       home: const HomeView(),

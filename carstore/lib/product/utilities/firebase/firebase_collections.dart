@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum FirebaseCollections {
-  version;
+  version,
+  cars;
 
   CollectionReference get reference =>
       FirebaseFirestore.instance.collection(name);

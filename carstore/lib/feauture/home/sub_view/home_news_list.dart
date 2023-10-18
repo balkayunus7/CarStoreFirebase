@@ -1,22 +1,17 @@
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/models/cars.dart';
 import 'package:carstore/product/utilities/exception/custom_exception.dart';
+import 'package:carstore/product/utilities/firebase/firebase_collections.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
-class HomeView2 extends StatefulWidget {
-  const HomeView2({super.key});
+class HomeListView extends StatelessWidget {
+  const HomeListView({super.key});
 
-  @override
-  State<HomeView2> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView2> {
   @override
   Widget build(BuildContext context) {
-    final CollectionReference cars =
-        FirebaseFirestore.instance.collection('cars');
+    final cars = FirebaseCollections.cars.reference;
 
     final response = cars.withConverter(
       fromFirestore: (snapshot, options) {

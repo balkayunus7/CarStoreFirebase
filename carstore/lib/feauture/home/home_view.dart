@@ -1,14 +1,32 @@
+import 'package:carstore/feauture/home/home_provider.dart';
 import 'package:carstore/feauture/home/sub_view/home_chips.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
-import 'package:carstore/product/enums/index.dart';
+import 'package:carstore/product/enums/image_sizes.dart';
+import 'package:carstore/product/widget/card/home_news_card.dart';
 import 'package:carstore/product/widget/text/subtitle_text.dart';
 import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
 
-class HomeView extends StatelessWidget {
+final _homeProvider = StateNotifierProvider<HomeNotifier, HomeState>((ref) {
+  return HomeNotifier();
+});
+
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
+
+  @override
+  ConsumerState<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends ConsumerState<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(_homeProvider.notifier).fetchCars();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,77 +94,23 @@ class _TagsListview extends StatelessWidget {
 }
 
 // Browse Horizontal Listview for browse cars listview
-class _BrowseHorizontalListview extends StatelessWidget {
+class _BrowseHorizontalListview extends ConsumerWidget {
   const _BrowseHorizontalListview();
-  static const dummyImage =
-      'https://firebasestorage.googleapis.com/v0/b/car-store-615be.appspot.com/o/Tesla.png?alt=media&token=a9258805-9913-498b-be93-408ff9f4e93c&_gl=1*gdytms*_ga*MTg0MjQxMzcyNy4xNjk2Njg4MTAw*_ga_CW55HF8NVT*MTY5NzM4ODEzNy4xMi4xLjE2OTczODgyMjMuNjAuMC4w';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final carsItems = ref.watch(_homeProvider).cars;
     return SizedBox(
       height: context.sized.dynamicHeight(.2),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 4,
+        itemCount: carsItems?.length ?? 0,
         itemBuilder: (context, index) {
-          return const _HorizontalCard(dummyImage: dummyImage);
+          return HomeNewsCard(
+            carsItem: carsItems?[index],
+          );
         },
       ),
-    );
-  }
-}
-
-class _HorizontalCard extends StatelessWidget {
-  const _HorizontalCard({
-    required this.dummyImage,
-  });
-
-  final String dummyImage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding: context.padding.onlyRightNormal,
-          child: Image.network(dummyImage),
-        ),
-        Positioned.fill(
-          child: Padding(
-            padding: context.padding.onlyRightNormal,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.bookmark_add_outlined,
-                    size: WidgetSize.iconNormal.value.toDouble(),
-                    color: ColorConstants.primaryGrey,
-                  ),
-                ),
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 60, right: 27),
-                  child: Column(
-                    children: [
-                      const SubtitleText(
-                        subtitle: 'CEDAN',
-                        color: ColorConstants.primaryWhite,
-                      ),
-                      Text(
-                        'Tesla Model 3 Standard Range Plus',
-                        style: context.general.textTheme.bodyLarge
-                            ?.copyWith(color: ColorConstants.primaryWhite),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        )
-      ],
     );
   }
 }
@@ -195,10 +159,38 @@ class _RecommendedWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: Image.network(dummyImage),
-        );
+        return const _RecommandedCard(dummyImage: dummyImage);
       },
+    );
+  }
+}
+
+class _RecommandedCard extends StatelessWidget {
+  const _RecommandedCard({
+    required this.dummyImage,
+  });
+
+  final String dummyImage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: context.padding.onlyTopLow,
+      child: Row(
+        children: [
+          Image.network(
+            dummyImage,
+            width: ImageSize.normal.value.toDouble(),
+            height: ImageSize.normal.value.toDouble(),
+          ),
+          const Expanded(
+            child: ListTile(
+              title: Text('UI/UX DESIGN'),
+              subtitle: Text('A simple Trick For Creating Palettes Quickly'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
