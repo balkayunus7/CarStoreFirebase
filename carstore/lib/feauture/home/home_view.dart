@@ -10,10 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
 
+// * State notifier provider created to be used
 final _homeProvider = StateNotifierProvider<HomeNotifier, HomeState>((ref) {
   return HomeNotifier();
 });
 
+// * Main home view widget
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
@@ -22,25 +24,34 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _HomeViewState extends ConsumerState<HomeView> {
+  // *  It is used to capture car data in the firebase in the provider object.
   @override
   void initState() {
     super.initState();
-    ref.read(_homeProvider.notifier).fetchCars();
+    Future.microtask(
+      () => ref.read(_homeProvider.notifier).fetchAndLoad(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
       child: SafeArea(
-        child: ListView(
-          padding: context.padding.normal,
-          children: const [
-            Header(),
-            _CustomTextfield(),
-            _TagsListview(),
-            _BrowseHorizontalListview(),
-            _RecommendedHeader(),
-            _RecommendedWidget(),
+        child: Stack(
+          children: [
+            ListView(
+              padding: context.padding.normal,
+              children: const [
+                Header(),
+                _CustomTextfield(),
+                _TagsListview(),
+                _BrowseHorizontalListview(),
+                _RecommendedHeader(),
+                _RecommendedWidget(),
+              ],
+            ),
+            if (ref.watch(_homeProvider).isLoading ?? false)
+              const Center(child: CircularProgressIndicator()),
           ],
         ),
       ),
@@ -48,8 +59,36 @@ class _HomeViewState extends ConsumerState<HomeView> {
   }
 }
 
-// Custom textfield for search
+//* Header for home page titles
+class Header extends StatelessWidget {
+  const Header({
+    super.key,
+  });
 
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: context.padding.onlyTopMedium,
+          child: const TitleText(
+              title: StringConstants.homeBrowse,
+              color: ColorConstants.primaryOrange),
+        ),
+        Padding(
+          padding: context.padding.verticalLow,
+          child: const SubtitleText(
+            subtitle: StringConstants.homeMessage,
+            color: ColorConstants.primaryGrey,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+//* Custom textfield widget for search
 class _CustomTextfield extends StatelessWidget {
   const _CustomTextfield();
 
@@ -71,22 +110,28 @@ class _CustomTextfield extends StatelessWidget {
   }
 }
 
-// Tags for search tags
-class _TagsListview extends StatelessWidget {
+//* Tags for category tags
+class _TagsListview extends ConsumerWidget {
   const _TagsListview();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tagItems = ref.watch(_homeProvider).tag ?? [];
     return SizedBox(
       height: context.sized.dynamicHeight(.1),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 4,
+        itemCount: tagItems.length,
         itemBuilder: (context, index) {
-          if (index.isOdd) {
-            return const ActiveChip();
+          final tagItem = tagItems[index];
+          if (tagItem.active ?? false) {
+            return ActiveChip(
+              tag: tagItem,
+            );
           }
-          return const PassiveChip();
+          return PassiveChip(
+            tag: tagItem,
+          );
         },
       ),
     );
@@ -145,7 +190,7 @@ class _RecommendedHeader extends StatelessWidget {
   }
 }
 
-// RecomandedWidget for recemanded cars card widgets
+// RecomandedWidget for recommanded cars card widgets
 class _RecommendedWidget extends StatelessWidget {
   const _RecommendedWidget();
 
@@ -191,35 +236,6 @@ class _RecommandedCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-// Header for home page titles
-class Header extends StatelessWidget {
-  const Header({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: context.padding.onlyTopMedium,
-          child: const TitleText(
-              title: StringConstants.homeBrowse,
-              color: ColorConstants.primaryOrange),
-        ),
-        Padding(
-          padding: context.padding.verticalLow,
-          child: const SubtitleText(
-            subtitle: StringConstants.homeMessage,
-            color: ColorConstants.primaryGrey,
-          ),
-        ),
-      ],
     );
   }
 }

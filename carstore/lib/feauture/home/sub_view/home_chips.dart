@@ -1,9 +1,11 @@
 import 'package:carstore/product/constants/color_constants.dart';
+import 'package:carstore/product/models/tag.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
 class ActiveChip extends StatelessWidget {
-  const ActiveChip({super.key});
+  const ActiveChip({required this.tag, super.key});
+  final Tag tag;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class ActiveChip extends StatelessWidget {
       padding: context.padding.normal,
       child: Chip(
         label: Text(
-          'label active',
+          tag.name ?? '',
           style: context.general.textTheme.bodySmall
               ?.copyWith(color: ColorConstants.primaryWhite),
         ),
@@ -23,14 +25,15 @@ class ActiveChip extends StatelessWidget {
 }
 
 class PassiveChip extends StatelessWidget {
-  const PassiveChip({super.key});
+  const PassiveChip({required this.tag, super.key});
+  final Tag tag;
 
   @override
   Widget build(BuildContext context) {
     return Chip(
       labelPadding: context.padding.onlyRightLow,
       label: Text(
-        'label passive',
+        tag.name ?? '',
         style: context.general.textTheme.bodySmall
             ?.copyWith(color: ColorConstants.primaryWhite),
       ),
