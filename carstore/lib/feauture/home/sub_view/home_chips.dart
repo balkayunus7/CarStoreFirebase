@@ -10,7 +10,7 @@ class ActiveChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: context.padding.normal,
+      padding: context.padding.low,
       child: Chip(
         label: Text(
           tag.name ?? '',
@@ -30,15 +30,17 @@ class PassiveChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Chip(
-      labelPadding: context.padding.onlyRightLow,
-      label: Text(
-        tag.name ?? '',
-        style: context.general.textTheme.bodySmall
-            ?.copyWith(color: ColorConstants.primaryWhite),
-      ),
-      backgroundColor: Colors.grey.shade300,
+    return Padding(
       padding: context.padding.low,
+      child: Chip(
+        label: Text(
+          tag.name ?? '',
+          style: context.general.textTheme.bodySmall
+              ?.copyWith(color: ColorConstants.primaryWhite),
+        ),
+        backgroundColor: Colors.grey.shade300,
+        padding: context.padding.low,
+      ),
     );
   }
 }

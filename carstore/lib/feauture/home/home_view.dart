@@ -1,9 +1,10 @@
 import 'package:carstore/feauture/home/home_provider.dart';
 import 'package:carstore/feauture/home/sub_view/home_chips.dart';
+import 'package:carstore/feauture/home/sub_view/home_search_delegate.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
-import 'package:carstore/product/enums/image_sizes.dart';
 import 'package:carstore/product/widget/card/home_news_card.dart';
+import 'package:carstore/product/widget/card/recommanded_card.dart';
 import 'package:carstore/product/widget/text/subtitle_text.dart';
 import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
@@ -89,12 +90,20 @@ class Header extends StatelessWidget {
 }
 
 //* Custom textfield widget for search
-class _CustomTextfield extends StatelessWidget {
+class _CustomTextfield extends ConsumerWidget {
   const _CustomTextfield();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return TextField(
+      onTap: () {
+        showSearch(
+          context: context,
+          delegate: HomeSearchDelegate(
+            ref.read(_homeProvider.notifier).fullCarList,
+          ),
+        );
+      },
       decoration: InputDecoration(
         filled: true,
         hintText: StringConstants.textfieldSearch,
@@ -191,51 +200,21 @@ class _RecommendedHeader extends StatelessWidget {
 }
 
 // RecomandedWidget for recommanded cars card widgets
-class _RecommendedWidget extends StatelessWidget {
+class _RecommendedWidget extends ConsumerWidget {
   const _RecommendedWidget();
 
-  static const dummyImage =
-      'https://firebasestorage.googleapis.com/v0/b/car-store-615be.appspot.com/o/Rectangle%2013.png?alt=media&token=2841a39e-0db2-4ec3-8763-d587fbf76726&_gl=1*1ppf73v*_ga*MTg0MjQxMzcyNy4xNjk2Njg4MTAw*_ga_CW55HF8NVT*MTY5NzM4ODEzNy4xMi4xLjE2OTczOTA1NTguNjAuMC4w';
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final values = ref.watch(_homeProvider).recommended ?? [];
     return ListView.builder(
-      itemCount: 5,
+      itemCount: values.length,
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       itemBuilder: (context, index) {
-        return const _RecommandedCard(dummyImage: dummyImage);
+        return RecommandedCard(
+          recommended: values[index],
+        );
       },
-    );
-  }
-}
-
-class _RecommandedCard extends StatelessWidget {
-  const _RecommandedCard({
-    required this.dummyImage,
-  });
-
-  final String dummyImage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: context.padding.onlyTopLow,
-      child: Row(
-        children: [
-          Image.network(
-            dummyImage,
-            width: ImageSize.normal.value.toDouble(),
-            height: ImageSize.normal.value.toDouble(),
-          ),
-          const Expanded(
-            child: ListTile(
-              title: Text('UI/UX DESIGN'),
-              subtitle: Text('A simple Trick For Creating Palettes Quickly'),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
