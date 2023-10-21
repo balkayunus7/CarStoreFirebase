@@ -18,7 +18,55 @@ class HomeNewsCard extends StatelessWidget {
       children: [
         Padding(
           padding: context.padding.onlyRightNormal,
-          child: Image.network(carsItem!.backgroundImage ?? ''),
+          child: Positioned.fill(
+            child: Card(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: context.border.lowBorderRadius,
+                        child: Image.network(
+                          carsItem!.backgroundImage ?? '',
+                        ),
+                      ),
+                      Positioned.fill(
+                        child: Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.white.withOpacity(0),
+                                Colors.white.withOpacity(0.1),
+                                Colors.white.withOpacity(0.1),
+                                Colors.white.withOpacity(0.2),
+                                Colors.white.withOpacity(0.4),
+                                Colors.white.withOpacity(1),
+                              ],
+                              begin: Alignment.center,
+                              end: Alignment.bottomCenter,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SubtitleText(
+                    subtitle: carsItem!.category ?? '',
+                    color: ColorConstants.primaryOrange,
+                  ),
+                  Text(
+                    carsItem!.title ?? '',
+                    style: context.general.textTheme.headlineSmall?.copyWith(
+                      color: ColorConstants.primaryOrange,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
         Positioned.fill(
           child: Padding(
@@ -32,23 +80,6 @@ class HomeNewsCard extends StatelessWidget {
                     Icons.bookmark_add_outlined,
                     size: WidgetSize.iconNormal.value.toDouble(),
                     color: ColorConstants.primaryGrey,
-                  ),
-                ),
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 60, right: 27),
-                  child: Column(
-                    children: [
-                      SubtitleText(
-                        subtitle: carsItem!.category ?? '',
-                        color: ColorConstants.primaryWhite,
-                      ),
-                      Text(
-                        carsItem!.title ?? '',
-                        style: context.general.textTheme.bodyLarge
-                            ?.copyWith(color: ColorConstants.primaryWhite),
-                      ),
-                    ],
                   ),
                 ),
               ],

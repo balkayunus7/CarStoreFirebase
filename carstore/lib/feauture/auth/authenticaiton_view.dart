@@ -1,4 +1,5 @@
 import 'package:carstore/feauture/auth/authenticaiton_provider.dart';
+import 'package:carstore/feauture/home/home_view.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/widget/text/subtitle_text.dart';
@@ -51,7 +52,9 @@ class _AuthenticaitonViewState extends ConsumerState<AuthenticaitonView> {
                   const _FirebaseAuth(),
                   if (ref.watch(authProvider).isRedirect)
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.route.navigateToPage(const HomeView());
+                      },
                       child: Text(
                         StringConstants.continiueApp,
                         textAlign: TextAlign.center,

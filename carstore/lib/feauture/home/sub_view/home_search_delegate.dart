@@ -69,9 +69,12 @@ class HomeSearchDelegate extends SearchDelegate<Cars?> {
             child: ListTile(
               title: Text(results.elementAt(index).title ?? ''),
               subtitle: Text(results.elementAt(index).category ?? ''),
-              trailing: Image.network(
-                results.elementAt(index).backgroundImage ?? '',
-                fit: BoxFit.cover,
+              trailing: ClipRRect(
+                borderRadius: context.border.lowBorderRadius,
+                child: Image.network(
+                  results.elementAt(index).backgroundImage ?? '',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

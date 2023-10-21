@@ -108,7 +108,6 @@ class _CustomTextfield extends ConsumerWidget {
         filled: true,
         hintText: StringConstants.textfieldSearch,
         prefixIcon: const Icon(Icons.search),
-        suffixIcon: const Icon(Icons.mic_outlined),
         fillColor: ColorConstants.textFieldGrey,
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
@@ -155,7 +154,7 @@ class _BrowseHorizontalListview extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final carsItems = ref.watch(_homeProvider).cars;
     return SizedBox(
-      height: context.sized.dynamicHeight(.2),
+      height: context.sized.dynamicHeight(0.23),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: carsItems?.length ?? 0,
