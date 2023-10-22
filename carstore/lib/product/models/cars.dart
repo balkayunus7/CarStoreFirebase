@@ -8,6 +8,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
     this.categoryId,
     this.title,
     this.backgroundImage,
+    this.description,
     this.id,
   });
 
@@ -15,6 +16,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
   final String? categoryId;
   final String? title;
   final String? backgroundImage;
+  final String? description;
   @override
   final String? id;
 
@@ -26,6 +28,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
     String? categoryId,
     String? title,
     String? backgroundImage,
+    String? description,
     String? id,
   }) {
     return Cars(
@@ -33,6 +36,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
       categoryId: categoryId ?? this.categoryId,
       title: title ?? this.title,
       backgroundImage: backgroundImage ?? this.backgroundImage,
+      description: description ?? this.description,
       id: id ?? this.id,
     );
   }
@@ -43,6 +47,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
       'categoryId': categoryId,
       'title': title,
       'backgroundImage': backgroundImage,
+      'description': description,
       'id': id,
     };
   }
@@ -54,6 +59,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
       categoryId: json['categoryId'] as String?,
       title: json['title'] as String?,
       backgroundImage: json['backgroundImage'] as String?,
+      description: json['description'] as String?,
       id: json['id'] as String?,
     );
   }

@@ -1,3 +1,4 @@
+import 'package:carstore/feauture/item/selected_item_view.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/enums/widget_sizes.dart';
 import 'package:carstore/product/models/cars.dart';
@@ -19,51 +20,60 @@ class HomeNewsCard extends StatelessWidget {
         Padding(
           padding: context.padding.onlyRightNormal,
           child: Positioned.fill(
-            child: Card(
-              color: Colors.white,
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: context.border.lowBorderRadius,
-                        child: Image.network(
-                          carsItem!.backgroundImage ?? '',
+            child: GestureDetector(
+              onTap: () {
+                context.route.navigateToPage(
+                  SelectedItemPage(
+                    carsItem: carsItem,
+                  ),
+                );
+              },
+              child: Card(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: context.border.lowBorderRadius,
+                          child: Image.network(
+                            carsItem!.backgroundImage ?? '',
+                          ),
                         ),
-                      ),
-                      Positioned.fill(
-                        child: Container(
-                          height: 60,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.white.withOpacity(0),
-                                Colors.white.withOpacity(0.1),
-                                Colors.white.withOpacity(0.1),
-                                Colors.white.withOpacity(0.2),
-                                Colors.white.withOpacity(0.4),
-                                Colors.white.withOpacity(1),
-                              ],
-                              begin: Alignment.center,
-                              end: Alignment.bottomCenter,
+                        Positioned.fill(
+                          child: Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withOpacity(0),
+                                  Colors.white.withOpacity(0.1),
+                                  Colors.white.withOpacity(0.1),
+                                  Colors.white.withOpacity(0.2),
+                                  Colors.white.withOpacity(0.4),
+                                  Colors.white.withOpacity(1),
+                                ],
+                                begin: Alignment.center,
+                                end: Alignment.bottomCenter,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SubtitleText(
-                    subtitle: carsItem!.category ?? '',
-                    color: ColorConstants.primaryOrange,
-                  ),
-                  Text(
-                    carsItem!.title ?? '',
-                    style: context.general.textTheme.headlineSmall?.copyWith(
-                      color: ColorConstants.primaryOrange,
-                      fontWeight: FontWeight.w500,
+                      ],
                     ),
-                  ),
-                ],
+                    SubtitleText(
+                      subtitle: carsItem!.category ?? '',
+                      color: ColorConstants.primaryOrange,
+                    ),
+                    Text(
+                      carsItem!.title ?? '',
+                      style: context.general.textTheme.headlineSmall?.copyWith(
+                        color: ColorConstants.primaryOrange,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -8,4 +8,5 @@ class ColorConstants {
   static const Color primaryWhite = Color(0xffFFFFFF);
   static const Color textFieldGrey = Color(0xffEDEEEF);
   static const Color primaryGrey = Colors.grey;
+  static const Color primaryDark = Colors.black;
 }
