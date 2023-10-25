@@ -13,7 +13,7 @@ class SubtitleText extends StatelessWidget {
       subtitle,
       style: context.general.textTheme.titleMedium?.copyWith(
         fontWeight: FontWeight.w500,
-        fontSize: 15,
+        fontSize: 17,
         color: color,
       ),
     );

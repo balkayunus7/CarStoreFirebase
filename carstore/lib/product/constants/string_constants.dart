@@ -17,4 +17,12 @@ class StringConstants {
   static const String homeTitle = 'Recommended ';
   static const String homeSeeAll = 'See All';
   static const String textfieldSearch = 'Search';
+
+  // Selected Item
+  static const String tagHandshake = 'Contact Dealer';
+  static const String tagLocation = 'Dehli,India';
+  static const String tagCarDetail = 'Car Details(Model,year...)';
+  static const String tagMoneyDetail = 'EMI/LOAN';
+
+  static const String iconText = 'Buy Now';
 }

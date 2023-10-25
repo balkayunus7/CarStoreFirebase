@@ -38,7 +38,7 @@ class _SplashViewState extends ConsumerState<SplashView>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconConstants.car.toImage,
+            IconConstants.logo.toImage,
             Padding(
               padding: context.padding.onlyTopLow,
               child: const WavyText(title: StringConstants.appName),
@@ -61,7 +61,7 @@ mixin _SplashViewListenMixin on ConsumerState<SplashView> {
       }
       if (next.isRedirectHome != null) {
         if (next.isRedirectHome!) {
-          Future.delayed(const Duration(milliseconds: 2250), () {
+          Future.delayed(const Duration(milliseconds: 2200), () {
             context.route.navigateToPage(const AuthenticaitonView());
           });
         } else {

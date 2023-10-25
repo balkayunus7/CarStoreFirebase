@@ -2,6 +2,7 @@ import 'package:carstore/feauture/auth/authenticaiton_provider.dart';
 import 'package:carstore/feauture/home/home_view.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
+import 'package:carstore/product/enums/image_constants.dart';
 import 'package:carstore/product/widget/text/subtitle_text.dart';
 import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,13 +38,12 @@ class _AuthenticaitonViewState extends ConsumerState<AuthenticaitonView> {
           firebase.AuthStateChangeAction<firebase.SignedIn>((context, state) {
             if (state.user != null) {
               checkUser(state.user);
-              print('Here ${state.user}');
             }
           }),
         ],
-        child: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
-            padding: context.padding.low,
+            padding: context.padding.low.copyWith(top: 180),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -100,6 +100,12 @@ class _Header extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 20),
+        Padding(
+          padding: context.padding.onlyBottomNormal,
+          child: ClipRRect(
+              borderRadius: context.border.lowBorderRadius,
+              child: IconConstants.playstore.toImage),
+        ),
         Padding(
           padding: context.padding.onlyBottomLow,
           child: const TitleText(

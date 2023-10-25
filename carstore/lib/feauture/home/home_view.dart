@@ -154,7 +154,7 @@ class _BrowseHorizontalListview extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final carsItems = ref.watch(_homeProvider).cars;
     return SizedBox(
-      height: context.sized.dynamicHeight(0.23),
+      height: context.sized.dynamicHeight(0.24),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: carsItems?.length ?? 0,
@@ -179,11 +179,9 @@ class _RecommendedHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Expanded(
-            child: TitleText(
-              title: StringConstants.homeTitle,
-              color: Colors.black,
-            ),
+          const TitleText(
+            title: StringConstants.homeTitle,
+            color: Colors.black,
           ),
           TextButton(
             onPressed: () {},

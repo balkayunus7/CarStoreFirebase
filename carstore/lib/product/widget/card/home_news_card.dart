@@ -32,34 +32,12 @@ class HomeNewsCard extends StatelessWidget {
                 color: Colors.white,
                 child: Column(
                   children: [
-                    Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: context.border.lowBorderRadius,
-                          child: Image.network(
-                            carsItem!.backgroundImage ?? '',
-                          ),
-                        ),
-                        Positioned.fill(
-                          child: Container(
-                            height: 60,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.white.withOpacity(0),
-                                  Colors.white.withOpacity(0.1),
-                                  Colors.white.withOpacity(0.1),
-                                  Colors.white.withOpacity(0.2),
-                                  Colors.white.withOpacity(0.4),
-                                  Colors.white.withOpacity(1),
-                                ],
-                                begin: Alignment.center,
-                                end: Alignment.bottomCenter,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    SizedBox(
+                      width: 220,
+                      height: 150,
+                      child: Image.network(
+                        carsItem!.backgroundImage ?? '',
+                      ),
                     ),
                     SubtitleText(
                       subtitle: carsItem!.category ?? '',
