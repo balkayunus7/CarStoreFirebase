@@ -13,11 +13,13 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
     this.description,
     this.id,
     this.price,
+    this.videoUrl,
   });
 
   final String? category;
   final String? categoryId;
   final String? title;
+  final String? videoUrl;
   final String? backgroundImage;
   final String? backgroundImage2;
   final String? backgroundImage3;
@@ -30,6 +32,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
   List<Object?> get props => [
         category,
         categoryId,
+        videoUrl,
         title,
         backgroundImage,
         id,
@@ -43,6 +46,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
     String? category,
     String? categoryId,
     String? title,
+    String? videoUrl,
     String? backgroundImage,
     String? backgroundImage2,
     String? backgroundImage3,
@@ -54,6 +58,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
       category: category ?? this.category,
       categoryId: categoryId ?? this.categoryId,
       title: title ?? this.title,
+      videoUrl: videoUrl ?? this.videoUrl,
       backgroundImage2: backgroundImage2 ?? this.backgroundImage2,
       backgroundImage3: backgroundImage3 ?? this.backgroundImage3,
       backgroundImage: backgroundImage ?? this.backgroundImage,
@@ -68,6 +73,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
       'category': category,
       'categoryId': categoryId,
       'title': title,
+      'videoUrl': videoUrl,
       'backgroundImage': backgroundImage,
       'backgroundImage2': backgroundImage2,
       'backgroundImage3': backgroundImage3,
@@ -83,6 +89,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
       category: json['category'] as String?,
       categoryId: json['categoryId'] as String?,
       title: json['title'] as String?,
+      videoUrl: json['videoUrl'] as String?,
       backgroundImage: json['backgroundImage'] as String?,
       backgroundImage2: json['backgroundImage2'] as String?,
       backgroundImage3: json['backgroundImage3'] as String?,

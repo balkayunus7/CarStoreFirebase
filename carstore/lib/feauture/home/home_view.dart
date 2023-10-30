@@ -202,14 +202,14 @@ class _RecommendedWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final values = ref.watch(_homeProvider).recommended ?? [];
+    final recommandedList = ref.watch(_homeProvider).recommended ?? [];
     return ListView.builder(
-      itemCount: values.length,
+      itemCount: recommandedList.length,
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       itemBuilder: (context, index) {
         return RecommandedCard(
-          recommended: values[index],
+          recommended: recommandedList[index],
         );
       },
     );

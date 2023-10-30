@@ -1,3 +1,4 @@
+import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:carstore/feauture/item/sub_view/icon_appbar.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
@@ -6,6 +7,7 @@ import 'package:carstore/product/widget/text/subtitle_text.dart';
 import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SelectedItemPage extends StatefulWidget {
   const SelectedItemPage({super.key, this.carsItem});
@@ -18,32 +20,35 @@ class SelectedItemPage extends StatefulWidget {
 class _SelectedItemPageState extends State<SelectedItemPage> {
   final PageController _pageController = PageController();
 
+  late CustomVideoPlayerController _customVideoPlayerController;
+  late VideoPlayerController _videoPlayerController;
+
+  @override
+  void initState() {
+    super.initState();
+    VideoPlayer();
+  }
+
+  void VideoPlayer() {
+    _videoPlayerController = VideoPlayerController.networkUrl(
+        Uri.parse(widget.carsItem?.videoUrl ?? ''))
+      ..initialize().then((value) => setState(() {}));
+    _customVideoPlayerController = CustomVideoPlayerController(
+        context: context, videoPlayerController: _videoPlayerController);
+  }
+
+  @override
+  void dispose() {
+    _customVideoPlayerController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconAppBar(
-          iconColor: Colors.black,
-          iconData: Icons.arrow_back,
-          onPressed: () {
-            context.route.pop();
-          },
-        ),
-        actions: [
-          IconAppBar(
-            onPressed: () {},
-            iconColor: ColorConstants.primaryDark,
-            iconData: Icons.share,
-          ),
-        ],
-        centerTitle: true,
-        title: const TitleText(
-          title: StringConstants.appName,
-          color: ColorConstants.primaryOrange,
-        ),
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: _CustomAppBar(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: const SizedBox.shrink()),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,6 +58,7 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
               child: Column(
                 children: [
                   // * Car Image and Title, Description
+
                   Stack(
                     children: [
                       SizedBox(
@@ -71,54 +77,26 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
                               Image.network(
                                 widget.carsItem?.backgroundImage3 ?? '',
                               ),
+                              CustomVideoPlayer(
+                                customVideoPlayerController:
+                                    _customVideoPlayerController,
+                              ),
                             ],
                           ),
                         ),
                       ),
-                      // * PageView Arrows
-                      Positioned(
-                        right: 370,
-                        child: GestureDetector(
-                          onTap: () {
-                            _pageController.previousPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.ease,
-                            );
-                          },
-                          child: Container(
-                            height: 412,
-                            width: 150,
-                            color: Colors.transparent,
-                            child: const Icon(
-                              Icons.arrow_back_ios_rounded,
-                              size: 38,
-                              color: ColorConstants.primaryOrange,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 370,
-                        child: GestureDetector(
-                          onTap: () {
-                            _pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.ease,
-                            );
-                          },
-                          child: Container(
-                            height: 412,
-                            width: 150,
-                            color: Colors.transparent,
-                            child: const Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 38,
-                              color: ColorConstants.primaryOrange,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
+                  ),
+                  SmoothPageIndicator(
+                    controller: _pageController,
+                    count: 4,
+                    effect: ExpandingDotsEffect(
+                      dotColor: ColorConstants.primaryOrange,
+                      activeDotColor: ColorConstants.primaryDark,
+                      dotHeight: 20,
+                      dotWidth: 15,
+                      spacing: 4,
+                    ),
                   ),
                   // * Title and Description
                   Padding(
@@ -180,6 +158,7 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
                       ],
                     ),
                   ),
+
                   // * Buy Button
                   const _BuyButton()
                 ],
@@ -188,6 +167,37 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _CustomAppBar extends PreferredSize {
+  _CustomAppBar({required super.preferredSize, required super.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      leading: IconAppBar(
+        iconColor: ColorConstants.primaryDark,
+        iconData: Icons.arrow_back,
+        onPressed: () {
+          context.route.pop();
+        },
+      ),
+      actions: [
+        IconAppBar(
+          onPressed: () {},
+          iconColor: ColorConstants.primaryDark,
+          iconData: Icons.share,
+        ),
+      ],
+      centerTitle: true,
+      title: const TitleText(
+        title: StringConstants.appName,
+        color: ColorConstants.primaryOrange,
+      ),
+      backgroundColor: Colors.transparent,
     );
   }
 }
