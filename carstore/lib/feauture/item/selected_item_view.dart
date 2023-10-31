@@ -58,11 +58,10 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
               child: Column(
                 children: [
                   // * Car Image and Title, Description
-
                   Stack(
                     children: [
                       SizedBox(
-                        height: context.sized.dynamicHeight(0.4),
+                        height: context.sized.dynamicHeight(0.35),
                         child: Padding(
                           padding: const EdgeInsets.all(40),
                           child: PageView(
@@ -87,15 +86,18 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
                       ),
                     ],
                   ),
-                  SmoothPageIndicator(
-                    controller: _pageController,
-                    count: 4,
-                    effect: ExpandingDotsEffect(
-                      dotColor: ColorConstants.primaryOrange,
-                      activeDotColor: ColorConstants.primaryDark,
-                      dotHeight: 20,
-                      dotWidth: 15,
-                      spacing: 4,
+                  Padding(
+                    padding: context.padding.onlyBottomNormal,
+                    child: SmoothPageIndicator(
+                      controller: _pageController,
+                      count: 4,
+                      effect: WormEffect(
+                        dotColor: Colors.grey.shade400,
+                        activeDotColor: ColorConstants.primaryOrange,
+                        dotHeight: 15,
+                        dotWidth: 15,
+                        spacing: 3,
+                      ),
                     ),
                   ),
                   // * Title and Description

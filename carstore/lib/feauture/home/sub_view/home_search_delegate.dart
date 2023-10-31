@@ -1,9 +1,12 @@
+import 'package:carstore/feauture/item/selected_item_view.dart';
 import 'package:carstore/product/models/cars.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
 class HomeSearchDelegate extends SearchDelegate<Cars?> {
-  HomeSearchDelegate(this.carItems);
+  HomeSearchDelegate(
+    this.carItems,
+  );
 
   final List<Cars> carItems;
   @override
@@ -42,6 +45,11 @@ class HomeSearchDelegate extends SearchDelegate<Cars?> {
           padding: context.padding.horizontalLow,
           child: Card(
             child: ListTile(
+              onTap: () {
+                context.route.navigateToPage(SelectedItemPage(
+                  carsItem: results.elementAt(index),
+                ));
+              },
               title: Text(results.elementAt(index).title ?? ''),
               subtitle: Text(results.elementAt(index).category ?? ''),
               trailing: Image.network(
@@ -67,6 +75,11 @@ class HomeSearchDelegate extends SearchDelegate<Cars?> {
           padding: context.padding.horizontalLow,
           child: Card(
             child: ListTile(
+              onTap: () {
+                context.route.navigateToPage(SelectedItemPage(
+                  carsItem: results.elementAt(index),
+                ));
+              },
               title: Text(results.elementAt(index).title ?? ''),
               subtitle: Text(results.elementAt(index).category ?? ''),
               trailing: ClipRRect(
