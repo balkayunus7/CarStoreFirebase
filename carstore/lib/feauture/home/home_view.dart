@@ -1,4 +1,5 @@
 import 'package:carstore/feauture/home/home_provider.dart';
+import 'package:carstore/feauture/save/saved_view.dart';
 import 'package:carstore/feauture/home/sub_view/home_chips.dart';
 import 'package:carstore/feauture/home/sub_view/home_search_delegate.dart';
 import 'package:carstore/product/constants/color_constants.dart';
@@ -42,13 +43,18 @@ class _HomeViewState extends ConsumerState<HomeView> {
           children: [
             ListView(
               padding: context.padding.normal,
-              children: const [
+              children: [
                 Header(),
                 _CustomTextfield(),
                 _TagsListview(),
                 _BrowseHorizontalListview(),
                 _RecommendedHeader(),
                 _RecommendedWidget(),
+                FloatingActionButton(
+                  onPressed: () {
+                    context.route.navigateToPage(const SavedPage());
+                  },
+                )
               ],
             ),
             if (ref.watch(_homeProvider).isLoading ?? false)
@@ -160,6 +166,11 @@ class _BrowseHorizontalListview extends ConsumerWidget {
         itemCount: carsItems?.length ?? 0,
         itemBuilder: (context, index) {
           return HomeNewsCard(
+            onPressed: () {
+              ref
+                  .watch(_homeProvider.notifier)
+                  .saveSelectedCar(carsItems![index]);
+            },
             carsItem: carsItems?[index],
           );
         },

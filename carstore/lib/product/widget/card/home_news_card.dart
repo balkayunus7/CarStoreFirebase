@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
 class HomeNewsCard extends StatelessWidget {
-  const HomeNewsCard({required this.carsItem, super.key});
+  const HomeNewsCard(
+      {required this.carsItem, super.key, required this.onPressed});
 
   final Cars? carsItem;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class HomeNewsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: onPressed,
                   icon: Icon(
                     Icons.bookmark_add_outlined,
                     size: WidgetSize.iconNormal.value.toDouble(),
