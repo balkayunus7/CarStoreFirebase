@@ -1,5 +1,4 @@
 import 'package:carstore/feauture/home/home_provider.dart';
-import 'package:carstore/feauture/save/saved_view.dart';
 import 'package:carstore/feauture/home/sub_view/home_chips.dart';
 import 'package:carstore/feauture/home/sub_view/home_search_delegate.dart';
 import 'package:carstore/product/constants/color_constants.dart';
@@ -30,9 +29,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => ref.read(_homeProvider.notifier).fetchAndLoad(),
-    );
+    Future.microtask(() => ref.read(_homeProvider.notifier).fetchAndLoad());
   }
 
   @override
@@ -50,11 +47,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 _BrowseHorizontalListview(),
                 _RecommendedHeader(),
                 _RecommendedWidget(),
-                FloatingActionButton(
-                  onPressed: () {
-                    context.route.navigateToPage(const SavedPage());
-                  },
-                )
               ],
             ),
             if (ref.watch(_homeProvider).isLoading ?? false)

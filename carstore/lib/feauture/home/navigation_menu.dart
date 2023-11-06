@@ -1,4 +1,5 @@
 import 'package:carstore/feauture/home/home_view.dart';
+import 'package:carstore/feauture/profile/profile_view.dart';
 import 'package:carstore/feauture/save/saved_view.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   final List _pages = [
     const HomeView(),
     const SavedPage(),
+    const ProfileView()
   ];
   @override
   Widget build(BuildContext context) {
@@ -44,8 +46,12 @@ class _NavigationMenuState extends State<NavigationMenu> {
                 text: 'Home',
               ),
               GButton(
-                icon: Icons.search,
-                text: 'Search',
+                icon: Icons.save,
+                text: 'Saved',
+              ),
+              GButton(
+                icon: Icons.person,
+                text: 'Profile',
               ),
             ],
           ),

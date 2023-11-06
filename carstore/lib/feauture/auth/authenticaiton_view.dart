@@ -1,5 +1,5 @@
 import 'package:carstore/feauture/auth/authenticaiton_provider.dart';
-import 'package:carstore/feauture/home/home_view.dart';
+import 'package:carstore/feauture/home/navigation_menu.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/enums/image_constants.dart';
@@ -53,7 +53,7 @@ class _AuthenticaitonViewState extends ConsumerState<AuthenticaitonView> {
                   if (ref.watch(authProvider).isRedirect)
                     TextButton(
                       onPressed: () {
-                        context.route.navigateToPage(const HomeView());
+                        context.route.navigateToPage(const NavigationMenu());
                       },
                       child: Text(
                         StringConstants.continiueApp,

@@ -1,8 +1,9 @@
 import 'package:appinio_video_player/appinio_video_player.dart';
-import 'package:carstore/feauture/item/sub_view/icon_appbar.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/models/cars.dart';
+import 'package:carstore/product/widget/app_bar/custom_appbar.dart';
+import 'package:carstore/product/widget/icon_button/custom_icon_button.dart';
 import 'package:carstore/product/widget/text/subtitle_text.dart';
 import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +47,9 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _CustomAppBar(
+      appBar: CustomAppBar(StringConstants.appName,
           preferredSize: Size.fromHeight(kToolbarHeight),
+          onPressed: () => context.route.pop(),
           child: const SizedBox.shrink()),
       body: SingleChildScrollView(
         child: Column(
@@ -63,7 +65,7 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
                       SizedBox(
                         height: context.sized.dynamicHeight(0.35),
                         child: Padding(
-                          padding: const EdgeInsets.all(40),
+                          padding: context.padding.medium,
                           child: PageView(
                             controller: _pageController,
                             children: [
@@ -169,37 +171,6 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _CustomAppBar extends PreferredSize {
-  _CustomAppBar({required super.preferredSize, required super.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      elevation: 0,
-      leading: IconAppBar(
-        iconColor: ColorConstants.primaryDark,
-        iconData: Icons.arrow_back,
-        onPressed: () {
-          context.route.pop();
-        },
-      ),
-      actions: [
-        IconAppBar(
-          onPressed: () {},
-          iconColor: ColorConstants.primaryDark,
-          iconData: Icons.share,
-        ),
-      ],
-      centerTitle: true,
-      title: const TitleText(
-        title: StringConstants.appName,
-        color: ColorConstants.primaryOrange,
-      ),
-      backgroundColor: Colors.transparent,
     );
   }
 }

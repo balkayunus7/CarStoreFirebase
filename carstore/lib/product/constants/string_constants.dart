@@ -25,4 +25,16 @@ class StringConstants {
   static const String tagMoneyDetail = 'EMI/LOAN';
 
   static const String iconText = 'Buy Now';
+  static const String profileIconText = 'Edit Profile';
+
+  // Saved Page
+  static const String savedPageTitle = 'Saved Cars';
+
+  // Profile Page
+  static const String profilePageTitle = 'Profile';
+  static const String settingsText = 'Settings';
+  static const String themeText = 'Change Theme';
+  static const String userManageText = 'User Management';
+  static const String infoText = 'Information';
+  static const String logoutText = 'Logout';
 }

@@ -1,4 +1,4 @@
-import 'package:carstore/feauture/home/home_view.dart';
+import 'package:carstore/feauture/home/navigation_menu.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/initealize/app_builder.dart';
 import 'package:carstore/product/initealize/app_theme.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => AppBuilder(child).build(),
       title: StringConstants.appName,
       debugShowCheckedModeBanner: false,
-      home: HomeView(),
+      home: NavigationMenu(),
       theme: AppTheme(context: context).theme,
     );
   }
