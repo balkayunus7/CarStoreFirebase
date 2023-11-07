@@ -1,4 +1,4 @@
-import 'package:carstore/feauture/auth/authenticaiton_view.dart';
+import 'package:carstore/feauture/auth/login_view.dart';
 import 'package:carstore/feauture/splash/splash_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
@@ -62,7 +62,7 @@ mixin _SplashViewListenMixin on ConsumerState<SplashView> {
       if (next.isRedirectHome != null) {
         if (next.isRedirectHome!) {
           Future.delayed(const Duration(milliseconds: 2200), () {
-            context.route.navigateToPage(const AuthenticaitonView());
+            context.route.navigateToPage(LoginPage());
           });
         } else {
           // false

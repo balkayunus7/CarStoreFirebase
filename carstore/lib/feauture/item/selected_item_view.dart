@@ -164,7 +164,10 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
                   ),
 
                   // * Buy Button
-                  const _BuyButton()
+                  BuyButton(
+                    onPressed: () {},
+                    iconText: StringConstants.iconText,
+                  )
                 ],
               ),
             ),
@@ -176,8 +179,11 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
 }
 
 // * Buy Button of Car Details Page
-class _BuyButton extends StatelessWidget {
-  const _BuyButton();
+class BuyButton extends StatelessWidget {
+  const BuyButton({super.key, required this.iconText, required this.onPressed});
+
+  final String iconText;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -194,13 +200,13 @@ class _BuyButton extends StatelessWidget {
             ),
           ),
         ),
-        onPressed: () {},
-        child: const SizedBox(
+        onPressed: onPressed,
+        child: SizedBox(
           width: double.infinity,
           height: 65,
           child: Center(
             child: Text(
-              StringConstants.iconText,
+              iconText,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,

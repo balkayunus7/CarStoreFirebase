@@ -1,5 +1,5 @@
+import 'package:carstore/feauture/auth/network/firebase_auth.dart';
 import 'package:carstore/feauture/home/navigation_menu.dart';
-import 'package:carstore/feauture/profile/profile_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/widget/app_bar/custom_appbar.dart';
@@ -17,14 +17,9 @@ class ProfileView extends ConsumerStatefulWidget {
 }
 
 class _ProfileViewState extends ConsumerState<ProfileView> {
-  final _profileNotifier =
-      StateNotifierProvider<ProfileNotifier, ProfileState>((ref) {
-    return ProfileNotifier();
-  });
-
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(_profileNotifier).user;
+    final FirebaseAuthClass authClass = FirebaseAuthClass();
     return Scaffold(
         appBar: CustomAppBar(StringConstants.profilePageTitle,
             preferredSize: Size.fromHeight(kToolbarHeight),
@@ -45,13 +40,12 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
               SizedBox(
                 height: 10,
               ),
-              TitleText(
-                  title: 'YUnus Balka', color: ColorConstants.primaryDark),
+              TitleText(title: 'Yunus', color: ColorConstants.primaryDark),
               SizedBox(
                 height: 5,
               ),
               SubtitleText(
-                  subtitle: 'İrem ÇELEBi', color: ColorConstants.primaryDark),
+                  subtitle: 'Balkayunus', color: ColorConstants.primaryDark),
               SizedBox(
                 height: 20,
               ),
@@ -69,11 +63,16 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   iconLead: Icons.person),
               _ProfileListtile(
                   title: StringConstants.infoText, iconLead: Icons.info),
-              _ProfileListtile(
-                title: StringConstants.logoutText,
-                iconLead: Icons.logout,
-                textColor: ColorConstants.primaryRed,
-                iconColor: ColorConstants.primaryRed,
+              GestureDetector(
+                onTap: () {
+                  authClass.signOutUser();
+                },
+                child: _ProfileListtile(
+                  title: StringConstants.logoutText,
+                  iconLead: Icons.logout,
+                  textColor: ColorConstants.primaryRed,
+                  iconColor: ColorConstants.primaryRed,
+                ),
               ),
             ],
           ),
@@ -123,7 +122,7 @@ class _ProfileListtile extends StatelessWidget {
               color: Colors.white.withOpacity(0.1)),
           child: Icon(
             Icons.arrow_forward_ios,
-            color: Colors.black,
+            color: ColorConstants.primaryDark,
           ),
         ),
       ),

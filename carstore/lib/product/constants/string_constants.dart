@@ -8,8 +8,15 @@ class StringConstants {
 
   // Login
   static const String login = 'Login';
+  static const String register = 'Register';
   static const String welcomeBack = 'Welcome to CarStore';
   static const String continiueApp = 'Continiue to app';
+  static const String hintTextEmail = 'E Mail';
+  static const String hintName = 'Username';
+  static const String hintTextPassword = 'Password';
+  static const String routingTextLogin = 'A new gym trainer? Sign up now!';
+  static const String routingTextRegister =
+      'Are you already trainer? Sign in now!';
 
   // Home
   static const String homeBrowse = 'CarStore';

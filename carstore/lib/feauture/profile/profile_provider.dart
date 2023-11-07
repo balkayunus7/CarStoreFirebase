@@ -6,11 +6,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ProfileNotifier extends StateNotifier<ProfileState> {
   ProfileNotifier() : super(ProfileState());
 
-  void getUserDetails() {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      state = state.copyWith(user: user);
+  User? getUserDetails() {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      return currentUser;
     }
+    return null;
   }
 }
 
