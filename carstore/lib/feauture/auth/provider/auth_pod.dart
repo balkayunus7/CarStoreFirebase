@@ -41,12 +41,12 @@ class AuthProvider extends ChangeNotifier {
       'password': password,
       'uid': _userCredential!.user!.uid,
       'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
-      'bio': '',
-      'profilePhoto': '',
+      'profilePhoto':
+          'https://firebasestorage.googleapis.com/v0/b/car-store-615be.appspot.com/o/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg?alt=media&token=26c87683-835b-4e81-9ceb-00738dfb24fe',
     };
 
     String uid = _userCredential!.user!.uid;
-    isSuccessful = await addUserToDatabase(data, 'User', uid);
+    isSuccessful = await addUserToDatabase(data, 'users', uid);
     if (isSuccessful) {
       return _userCredential!;
     } else {

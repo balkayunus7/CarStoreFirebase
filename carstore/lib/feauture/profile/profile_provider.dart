@@ -1,32 +1,60 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:carstore/product/models/users.dart';
+import 'package:carstore/product/utilities/firebase/firebase_utility.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfileNotifier extends StateNotifier<ProfileState> {
+class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
   ProfileNotifier() : super(ProfileState());
 
-  User? getUserDetails() {
-    final User? currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      return currentUser;
+  Future<void> updateProfilePhoto(String newProfilePhoto) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final userUid = user.uid;
+      await FirebaseFirestore.instance.collection('users').doc(userUid).update(
+        {'profilePhoto': newProfilePhoto},
+      );
+      state = state.copyWith(newProfilePhoto: newProfilePhoto);
     }
-    return null;
+  }
+
+  Future<void> getCurrentUser() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final userUid = user.uid;
+      final userDocument = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userUid)
+          .get();
+
+      if (userDocument.exists) {
+        final item = Users().fromJson(userDocument.data()!);
+        state = state.copyWith(currentUser: item);
+      } else {
+        return null;
+      }
+    }
   }
 }
 
 class ProfileState extends Equatable {
-  ProfileState({this.user});
-  final User? user;
+  ProfileState({this.currentUser, this.newProfilePhoto});
+
+  final Users? currentUser;
+  final String? newProfilePhoto;
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [currentUser, newProfilePhoto];
 
   ProfileState copyWith({
-    User? user,
+    Users? currentUser,
+    String? newProfilePhoto,
   }) {
     return ProfileState(
-      user: user ?? this.user,
+      currentUser: currentUser ?? this.currentUser,
+      newProfilePhoto: newProfilePhoto ?? this.newProfilePhoto,
     );
   }
 }

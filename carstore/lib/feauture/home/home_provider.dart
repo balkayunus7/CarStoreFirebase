@@ -19,7 +19,7 @@ class HomeNotifier extends StateNotifier<HomeState> with FirebaseUtility {
     if (user != null) {
       final userUid = user.uid;
       final userDocument =
-          FirebaseFirestore.instance.collection('users').doc(userUid);
+          FirebaseFirestore.instance.collection('Users').doc(userUid);
       final selectedCarsCollection = userDocument.collection('selected_cars');
 
       final QuerySnapshot querySnapshot = await selectedCarsCollection.get();
@@ -30,7 +30,7 @@ class HomeNotifier extends StateNotifier<HomeState> with FirebaseUtility {
           return Cars().fromJson(data);
         }).toList();
 
-        state = state.copyWith(selectedCars: item);
+        state = state.copyWith(cars: item);
         savedCarsList = item;
       } else {
         return null;
@@ -80,7 +80,11 @@ class HomeNotifier extends StateNotifier<HomeState> with FirebaseUtility {
 
   Future<void> fetchAndLoad() async {
     state = state.copyWith(isLoading: true);
-    await Future.wait([fetchCars(), fetchTags(), fetchRecommanded()]);
+    await Future.wait([
+      fetchCars(),
+      fetchTags(),
+      fetchRecommanded(),
+    ]);
     state = state.copyWith(isLoading: false);
   }
 }

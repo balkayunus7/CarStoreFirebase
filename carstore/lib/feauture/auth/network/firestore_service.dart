@@ -26,12 +26,4 @@ class FirestoreService extends BaseFirestoreService {
       throw Exception(e.toString());
     }
   }
-
-  @override
-  Future getUserDataFromFirestore(
-      Map<String, dynamic> data, String collectionName, String docName) async {
-    final userData =
-        await _firestoreInstance.collection(collectionName).doc(docName).get();
-    return userData.data();
-  }
 }

@@ -41,7 +41,7 @@ class LoginPage extends ConsumerWidget {
                     child: CustomTextfield(
                         controller: _passwordController,
                         hintText: StringConstants.hintTextPassword,
-                        obscureText: false,
+                        obscureText: true,
                         icon: Icons.lock)),
                 BuyButton(
                     onPressed: () {

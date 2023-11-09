@@ -4,7 +4,4 @@ abstract class BaseFirestoreService {
 
   Future updateDataToFirestore(
       Map<String, dynamic> data, String collectionName, String docName);
-
-  Future getUserDataFromFirestore(
-      Map<String, dynamic> data, String collectionName, String docName);
 }

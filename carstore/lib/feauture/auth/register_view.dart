@@ -48,7 +48,7 @@ class RegisterPage extends ConsumerWidget {
                     child: CustomTextfield(
                         controller: _passwordController,
                         hintText: StringConstants.hintTextPassword,
-                        obscureText: false,
+                        obscureText: true,
                         icon: Icons.lock)),
                 BuyButton(
                     onPressed: () {
@@ -58,8 +58,7 @@ class RegisterPage extends ConsumerWidget {
                           .then((value) => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SelectedItemPage())));
+                                  builder: (context) => LoginPage())));
                     },
                     iconText: StringConstants.register),
                 Padding(
