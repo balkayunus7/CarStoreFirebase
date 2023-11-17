@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
   ProfileNotifier() : super(ProfileState());
@@ -17,6 +18,16 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
         {'profilePhoto': newProfilePhoto},
       );
       state = state.copyWith(newProfilePhoto: newProfilePhoto);
+    }
+  }
+
+  Future<void> pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      await updateProfilePhoto(image.path);
+      state = state.copyWith(newProfilePhoto: image.path);
     }
   }
 

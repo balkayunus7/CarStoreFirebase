@@ -64,11 +64,9 @@ class HomeNewsCard extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: onPressed,
-                  icon: Icon(
-                    Icons.bookmark_add_outlined,
-                    size: WidgetSize.iconNormal.value.toDouble(),
-                    color: ColorConstants.primaryGrey,
-                  ),
+                  icon: Icon(Icons.favorite,
+                      size: WidgetSize.iconNormal.value.toDouble(),
+                      color: ColorConstants.primaryRed),
                 ),
               ],
             ),

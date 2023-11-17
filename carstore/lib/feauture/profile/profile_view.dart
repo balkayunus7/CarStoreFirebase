@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:carstore/feauture/auth/login_view.dart';
+import 'package:carstore/feauture/auth/network/firebase_auth.dart';
 import 'package:carstore/feauture/home/navigation_menu.dart';
 import 'package:carstore/feauture/profile/profile_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
@@ -32,6 +36,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(_profilProvider).currentUser;
+    final FirebaseAuthClass _fAuth = FirebaseAuthClass();
     if (currentUser != null) {
       return Scaffold(
           appBar: CustomAppBar(StringConstants.profilePageTitle,
@@ -42,38 +47,38 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             padding: context.padding.onlyTopNormal,
             child: Column(
               children: [
-                SizedBox(
-                    width: 150,
-                    height: 150,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(200),
-                      child: Image(
-                          image: NetworkImage(currentUser.profilePhoto ?? '')),
-                    )),
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage: FileImage(
+                    File(currentUser.profilePhoto ?? ''),
+                  ),
+                ),
                 SizedBox(
                   height: 10,
                 ),
                 TitleText(
-                    title: currentUser.name ?? 'Loading...',
+                    title: currentUser.name ?? '',
                     color: ColorConstants.primaryDark),
                 SizedBox(
                   height: 5,
                 ),
                 SubtitleText(
-                    subtitle: currentUser.email ?? 'Loading...',
+                    subtitle: currentUser.email ?? '',
                     color: ColorConstants.primaryDark),
                 SizedBox(
                   height: 20,
                 ),
                 _BuyButton(() {
                   setState(() {
-                    ref.watch(_profilProvider.notifier).updateProfilePhoto(
-                        'https://media.licdn.com/dms/image/C4E03AQHm7QfV6S8_Rw/profile-displayphoto-shrink_800_800/0/1648846196288?e=1704931200&v=beta&t=ZeuCqQyet2Ou1DUOiHf7DDjt2XJNYhMzq-9URkAvVR0');
+                    ref.read(_profilProvider.notifier).pickImage().then(
+                        (value) => ref
+                            .read(_profilProvider.notifier)
+                            .getCurrentUser());
                   });
                 }),
                 Container(
-                  height: 40, // Çizgi yüksekliği
-                  color: Colors.transparent, // Çizgi rengi
+                  height: 40,
+                  color: Colors.transparent,
                 ),
                 _ProfileListtile(title: StringConstants.settingsText),
                 _ProfileListtile(
@@ -85,7 +90,10 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 _ProfileListtile(
                     title: StringConstants.infoText, iconLead: Icons.info),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    _fAuth.signOutUser();
+                    context.route.navigateToPage(LoginPage());
+                  },
                   child: _ProfileListtile(
                     title: StringConstants.logoutText,
                     iconLead: Icons.logout,
@@ -97,7 +105,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             ),
           ));
     } else {
-      return CircularProgressIndicator();
+      return SizedBox.shrink();
     }
   }
 }
