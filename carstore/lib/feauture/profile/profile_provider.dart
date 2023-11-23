@@ -23,7 +23,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
 
   Future<void> pickImage() async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
     if (image != null) {
       await updateProfilePhoto(image.path);
