@@ -1,11 +1,12 @@
-import 'dart:io';
 import 'package:carstore/feauture/auth/login_view.dart';
 import 'package:carstore/feauture/auth/network/firebase_auth.dart';
 import 'package:carstore/feauture/home/navigation_menu.dart';
 import 'package:carstore/feauture/profile/profile_provider.dart';
+import 'package:carstore/feauture/profile/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/widget/app_bar/custom_appbar.dart';
+import 'package:carstore/product/widget/icon_button/custom_icon_button.dart';
 import 'package:carstore/product/widget/text/subtitle_text.dart';
 import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     final FirebaseAuthClass _fAuth = FirebaseAuthClass();
     if (currentUser != null) {
       return Scaffold(
-          appBar: CustomAppBar(StringConstants.profilePageTitle,
+          appBar: _CustomAppBar(StringConstants.profilePageTitle,
               preferredSize: Size.fromHeight(kToolbarHeight),
               onPressed: () => context.route.navigateToPage(NavigationMenu()),
               child: const SizedBox.shrink()),
@@ -46,12 +47,13 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             padding: context.padding.onlyTopNormal,
             child: Column(
               children: [
+                
                 CircleAvatar(
                   radius: 50,
-                  backgroundImage: FileImage(
-                    File(currentUser.profilePhoto ?? ''),
-                  ),
+                  backgroundImage: Image.network(currentUser.profilePhoto ?? '')
+                      .image,
                 ),
+                
                 SizedBox(
                   height: 10,
                 ),
@@ -67,22 +69,20 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 SizedBox(
                   height: 20,
                 ),
+               
                 _BuyButton(() {
                   setState(() {
                     ref.read(_profilProvider.notifier).pickImage().then(
                         (value) => ref
                             .read(_profilProvider.notifier)
                             .getCurrentUser());
-                  });
+                  }); 
                 }),
                 Container(
                   height: 40,
                   color: Colors.transparent,
                 ),
                 _ProfileListtile(title: StringConstants.settingsText),
-                _ProfileListtile(
-                    title: StringConstants.themeText,
-                    iconLead: Icons.brightness_4),
                 _ProfileListtile(
                     title: StringConstants.userManageText,
                     iconLead: Icons.person),
@@ -96,7 +96,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   child: _ProfileListtile(
                     title: StringConstants.logoutText,
                     iconLead: Icons.logout,
-                    textColor: ColorConstants.primaryRed,
+                    textColor: ColorConstants.primaryDark,
                     iconColor: ColorConstants.primaryRed,
                   ),
                 ),
@@ -106,6 +106,30 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     } else {
       return SizedBox.shrink();
     }
+  }
+}
+
+class ThemeIcon extends ConsumerWidget {
+  const ThemeIcon({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context ,WidgetRef ref) {
+    final appThemeState = ref.watch(appThemeStateNotifier);
+    return IconButton(
+   icon: Icon(
+    appThemeState.isDarkModeEnabled ? Icons.wb_sunny_outlined : Icons.nightlight_outlined,
+    color: appThemeState.isDarkModeEnabled ? Colors.white : Colors.black,
+   ),
+   onPressed: () {
+    if (appThemeState.isDarkModeEnabled) {
+      appThemeState.setLighttheme();
+    } else {
+      appThemeState.setDarkTheme();
+    }
+  },
+   );
   }
 }
 
@@ -143,6 +167,7 @@ class _ProfileListtile extends StatelessWidget {
           style:
               context.general.textTheme.bodyLarge?.copyWith(color: textColor),
         ),
+        
         trailing: Container(
           height: 40,
           width: 40,
@@ -155,7 +180,9 @@ class _ProfileListtile extends StatelessWidget {
           ),
         ),
       ),
+      
     );
+    
   }
 }
 
@@ -197,6 +224,45 @@ class _BuyButton extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+
+
+
+class _CustomAppBar extends PreferredSize {
+  _CustomAppBar(
+    this.title, {
+    required super.preferredSize,
+    required super.child,
+    required this.onPressed,
+  });
+
+  final String title;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      leading: IconAppBar(
+        iconColor: ColorConstants.primaryDark,
+        iconData: Icons.arrow_back,
+        onPressed: onPressed,
+      ),
+      centerTitle: true,
+      title: TitleText(
+        title: title,
+        color: ColorConstants.primaryOrange,
+      ),
+      actions: [
+        ThemeIcon(),
+        SizedBox(
+          width: 10,)
+      ],
+      backgroundColor: Colors.transparent,
     );
   }
 }

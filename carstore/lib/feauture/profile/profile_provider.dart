@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carstore/product/models/users.dart';
 import 'package:carstore/product/utilities/firebase/firebase_utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,8 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+
 class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
   ProfileNotifier() : super(ProfileState());
+
 
   Future<void> updateProfilePhoto(String newProfilePhoto) async {
     final user = FirebaseAuth.instance.currentUser;
@@ -52,6 +53,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
 
 class ProfileState extends Equatable {
   ProfileState({this.currentUser, this.newProfilePhoto});
+    
 
   final Users? currentUser;
   final String? newProfilePhoto;
