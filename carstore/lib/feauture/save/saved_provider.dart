@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,9 +49,35 @@ class SavedNotifier extends StateNotifier<SavedState> {
           .where('id', isEqualTo: selectedCar.id)
           .get();
 
-      if (querySnapshot.docs.isEmpty) {
-        await selectedCarsCollection.add(selectedCar.toJson());
-      }
+       if(querySnapshot.docs.isNotEmpty){
+         await selectedCarsCollection.add(selectedCar.toJson());
+       }
+    }
+  }
+
+  Future<void> deleteSavedCar(Cars selectedCar) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final userUid = user.uid;
+      final userDocument =
+          FirebaseFirestore.instance.collection('users').doc(userUid);
+
+      final selectedCarsCollection = userDocument.collection('selected_cars');
+      //*  same car can not be added to the list
+      final querySnapshot = await selectedCarsCollection
+          .where('id', isEqualTo: selectedCar.id)
+          .get();
+
+        if (querySnapshot.docs.isNotEmpty) {
+      final docId = querySnapshot.docs.first.id;
+      await selectedCarsCollection.doc(docId).delete();
+
+      // Remove the deleted car from the local list
+      savedCarsList.removeWhere((car) => car.id == selectedCar.id);
+
+      // Update the state to trigger a rebuild
+      state = state.copyWith(selectedCars: savedCarsList);
+    }
     }
   }
 }

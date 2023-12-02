@@ -6,20 +6,23 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends PreferredSize {
   CustomAppBar(
     this.title, {
+    required this.iconColor,
     required super.preferredSize,
     required super.child,
     required this.onPressed,
+
   });
 
   final String title;
   final VoidCallback onPressed;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
       leading: IconAppBar(
-        iconColor: ColorConstants.primaryDark,
+        iconColor: iconColor,
         iconData: Icons.arrow_back,
         onPressed: onPressed,
       ),

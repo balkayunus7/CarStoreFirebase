@@ -49,6 +49,7 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
     return Scaffold(
       appBar: CustomAppBar(StringConstants.appName,
           preferredSize: Size.fromHeight(kToolbarHeight),
+          iconColor: ColorConstants.primaryDark,
           onPressed: () => context.route.pop(),
           child: const SizedBox.shrink()),
       body: SingleChildScrollView(

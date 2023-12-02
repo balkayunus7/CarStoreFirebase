@@ -1,4 +1,5 @@
 import 'package:carstore/feauture/home/navigation_menu.dart';
+import 'package:carstore/feauture/profile/theme_provider.dart';
 import 'package:carstore/feauture/save/saved_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
@@ -11,6 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
 
+
+final _savedProvider = StateNotifierProvider<SavedNotifier, SavedState>((ref) {
+  return SavedNotifier();
+});
+
 class SavedPage extends ConsumerStatefulWidget {
   const SavedPage({super.key});
 
@@ -19,18 +25,17 @@ class SavedPage extends ConsumerStatefulWidget {
 }
 
 class _SavedPageState extends ConsumerState<SavedPage> {
-  final _savedProvider =
-      StateNotifierProvider<SavedNotifier, SavedState>((ref) {
-    return SavedNotifier();
-  });
   @override
   Widget build(BuildContext context) {
     final cars = ref.watch(_savedProvider).selectedCars ?? [];
     // ignore: unused_local_variable
     final carss = ref.watch(_savedProvider.notifier).getSavedCars();
-
+    final appThemeState = ref.watch(appThemeStateNotifier);
     return Scaffold(
-      appBar: CustomAppBar(StringConstants.savedPageTitle,
+      appBar: CustomAppBar(StringConstants.savedPageTitle,  
+          iconColor: appThemeState.isDarkModeEnabled == false
+              ? ColorConstants.primaryDark
+              : Colors.white, 
           preferredSize: Size.fromHeight(kToolbarHeight),
           onPressed: () => context.route.navigateToPage(NavigationMenu()),
           child: const SizedBox.shrink()),
@@ -44,6 +49,9 @@ class _SavedPageState extends ConsumerState<SavedPage> {
             child: Stack(
               children: [
                 Card(
+                  color: appThemeState.isDarkModeEnabled == false
+                      ? Colors.transparent
+                      : Colors.white38,
                   shape: RoundedRectangleBorder(
                     borderRadius: context.border.normalBorderRadius,
                   ),
@@ -74,7 +82,11 @@ class _SavedPageState extends ConsumerState<SavedPage> {
                     left: 170,
                     top: 5,
                     child: IconAppBar(
-                        onPressed: () {},
+                        onPressed: () {
+                          ref
+                              .read(_savedProvider.notifier)
+                              .deleteSavedCar(cars[index]).then((value) => ref.read(_savedProvider.notifier).getSavedCars());
+                        },
                         iconColor: ColorConstants.primaryRed,
                         iconData: Icons.favorite)),
               ],

@@ -5,19 +5,19 @@ import 'package:carstore/feauture/profile/profile_provider.dart';
 import 'package:carstore/feauture/profile/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
-import 'package:carstore/product/widget/app_bar/custom_appbar.dart';
 import 'package:carstore/product/widget/icon_button/custom_icon_button.dart';
 import 'package:carstore/product/widget/text/subtitle_text.dart';
 import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
-// * State notifier provider created to be used
-
+// * State notifier provider created to be used in the profile page
 final _profilProvider =
     StateNotifierProvider<ProfileNotifier, ProfileState>((ref) {
   return ProfileNotifier();
 });
+
+
 
 class ProfileView extends ConsumerStatefulWidget {
   const ProfileView({super.key});
@@ -36,10 +36,12 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(_profilProvider).currentUser;
+    final appThemeState = ref.watch(appThemeStateNotifier);
     final FirebaseAuthClass _fAuth = FirebaseAuthClass();
     if (currentUser != null) {
       return Scaffold(
           appBar: _CustomAppBar(StringConstants.profilePageTitle,
+              appThemeState.isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite,
               preferredSize: Size.fromHeight(kToolbarHeight),
               onPressed: () => context.route.navigateToPage(NavigationMenu()),
               child: const SizedBox.shrink()),
@@ -47,7 +49,6 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             padding: context.padding.onlyTopNormal,
             child: Column(
               children: [
-                
                 CircleAvatar(
                   radius: 50,
                   backgroundImage: Image.network(currentUser.profilePhoto ?? '')
@@ -59,13 +60,13 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 ),
                 TitleText(
                     title: currentUser.name ?? '',
-                    color: ColorConstants.primaryDark),
+                    color: appThemeState.isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite),
                 SizedBox(
                   height: 5,
                 ),
                 SubtitleText(
                     subtitle: currentUser.email ?? '',
-                    color: ColorConstants.primaryDark),
+                    color:  appThemeState.isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite),
                 SizedBox(
                   height: 20,
                 ),
@@ -133,7 +134,7 @@ class ThemeIcon extends ConsumerWidget {
   }
 }
 
-class _ProfileListtile extends StatelessWidget {
+class _ProfileListtile extends ConsumerWidget {
   const _ProfileListtile(
       {required this.title,
       this.textColor = Colors.black,
@@ -146,7 +147,8 @@ class _ProfileListtile extends StatelessWidget {
   final Color iconColor;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appThemeState = ref.watch(appThemeStateNotifier);
     return Padding(
       padding: context.padding.horizontalNormal.copyWith(top: 7),
       child: ListTile(
@@ -155,7 +157,7 @@ class _ProfileListtile extends StatelessWidget {
           width: 40,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
-              color: Colors.white.withOpacity(0.4)),
+              color: appThemeState.isDarkModeEnabled == false ? Colors.grey.shade300 :ColorConstants.primaryWhite),
           child: Icon(
             iconLead,
             color: iconColor,
@@ -165,7 +167,7 @@ class _ProfileListtile extends StatelessWidget {
           textAlign: TextAlign.start,
           title,
           style:
-              context.general.textTheme.bodyLarge?.copyWith(color: textColor),
+              context.general.textTheme.bodyLarge?.copyWith(color:appThemeState.isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite ),
         ),
         
         trailing: Container(
@@ -176,7 +178,7 @@ class _ProfileListtile extends StatelessWidget {
               color: Colors.white.withOpacity(0.1)),
           child: Icon(
             Icons.arrow_forward_ios,
-            color: ColorConstants.primaryDark,
+            color: appThemeState.isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite,
           ),
         ),
       ),
@@ -234,7 +236,7 @@ class _BuyButton extends StatelessWidget {
 
 class _CustomAppBar extends PreferredSize {
   _CustomAppBar(
-    this.title, {
+    this.title, this.iconColor, {
     required super.preferredSize,
     required super.child,
     required this.onPressed,
@@ -242,13 +244,14 @@ class _CustomAppBar extends PreferredSize {
 
   final String title;
   final VoidCallback onPressed;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
       leading: IconAppBar(
-        iconColor: ColorConstants.primaryDark,
+        iconColor: iconColor,
         iconData: Icons.arrow_back,
         onPressed: onPressed,
       ),
