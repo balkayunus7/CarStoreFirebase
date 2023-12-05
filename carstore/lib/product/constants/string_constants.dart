@@ -39,9 +39,15 @@ class StringConstants {
 
   // Profile Page
   static const String profilePageTitle = 'Profile';
-  static const String settingsText = 'Settings';
+  static const String changePassword = 'Change Password';
   static const String themeText = 'Change Theme';
   static const String userManageText = 'User Management';
   static const String infoText = 'Information';
   static const String logoutText = 'Logout';
+
+  // Settings Page
+  static const String passworld = 'New Password';
+  static const String confirmPassword = 'Confirm Password';
+  static const String titlePassword="Reset your password";
+  static const String titlePasswordMessage="Enter your email address and we will send you a link to reset your password.";
 }

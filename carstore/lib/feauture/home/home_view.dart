@@ -1,6 +1,7 @@
 import 'package:carstore/feauture/home/home_provider.dart';
 import 'package:carstore/feauture/home/sub_view/home_chips.dart';
 import 'package:carstore/feauture/home/sub_view/home_search_delegate.dart';
+import 'package:carstore/feauture/profile/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/widget/card/home_news_card.dart';
@@ -172,19 +173,20 @@ class _BrowseHorizontalListview extends ConsumerWidget {
 }
 
 // RecommendedHeader for recommended cars card widgets titles
-class _RecommendedHeader extends StatelessWidget {
+class _RecommendedHeader extends ConsumerWidget {
   const _RecommendedHeader();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appThemeState = ref.watch(appThemeStateNotifier);
     return Padding(
       padding: context.padding.onlyTopLow,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const TitleText(
+           TitleText(
             title: StringConstants.homeTitle,
-            color: Colors.black,
+            color: appThemeState.isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite,
           ),
           TextButton(
             onPressed: () {},

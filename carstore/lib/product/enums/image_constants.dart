@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 enum IconConstants {
   playstore('playstore'),
   logo('logo'),
+  lock('lock'),
   ;
 
   final String value;

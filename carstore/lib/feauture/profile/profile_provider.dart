@@ -49,6 +49,17 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
       }
     }
   }
+
+  Future<void> changePassword(String newPassword) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await user.updatePassword(newPassword);
+      final userUid = user.uid;
+      await FirebaseFirestore.instance.collection('users').doc(userUid).update(
+        {'password': newPassword},
+      );
+    }
+  }
 }
 
 class ProfileState extends Equatable {

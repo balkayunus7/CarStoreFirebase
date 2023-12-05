@@ -1,4 +1,5 @@
 import 'package:carstore/feauture/home/navigation_menu.dart';
+import 'package:carstore/feauture/item/selected_item_view.dart';
 import 'package:carstore/feauture/profile/theme_provider.dart';
 import 'package:carstore/feauture/save/saved_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
@@ -48,34 +49,39 @@ class _SavedPageState extends ConsumerState<SavedPage> {
             padding: context.padding.low,
             child: Stack(
               children: [
-                Card(
-                  color: appThemeState.isDarkModeEnabled == false
-                      ? Colors.transparent
-                      : Colors.white38,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: context.border.normalBorderRadius,
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: ImageSize.cardWidth.value.toDouble(),
-                        height: ImageSize.cardHeight.value.toDouble(),
-                        child: Image.network(
-                          cars[index].backgroundImage.toString(),
+                GestureDetector(
+                  onTap: () {
+                    context.route.navigateToPage(SelectedItemPage(carsItem: cars[index],));
+                  },
+                  child: Card(
+                    color: appThemeState.isDarkModeEnabled == false
+                        ? Colors.transparent
+                        : Colors.white38,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: context.border.normalBorderRadius,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: ImageSize.cardWidth.value.toDouble(),
+                          height: ImageSize.cardHeight.value.toDouble(),
+                          child: Image.network(
+                            cars[index].backgroundImage.toString(),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: context.padding.onlyTopLow,
-                        child: SubtitleText(
-                          subtitle: cars[index].title.toString(),
+                        Padding(
+                          padding: context.padding.onlyTopLow,
+                          child: SubtitleText(
+                            subtitle: cars[index].title.toString(),
+                            color: ColorConstants.primaryOrange,
+                          ),
+                        ),
+                        TitleText(
+                          title: cars[index].price.toString(),
                           color: ColorConstants.primaryOrange,
                         ),
-                      ),
-                      TitleText(
-                        title: cars[index].price.toString(),
-                        color: ColorConstants.primaryOrange,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(

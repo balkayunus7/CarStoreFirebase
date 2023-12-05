@@ -197,7 +197,7 @@ class BuyButton extends StatelessWidget {
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: context.border.lowBorderRadius,
+              borderRadius: context.border.normalBorderRadius,
             ),
           ),
         ),

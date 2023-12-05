@@ -2,6 +2,7 @@ import 'package:carstore/feauture/auth/login_view.dart';
 import 'package:carstore/feauture/auth/network/firebase_auth.dart';
 import 'package:carstore/feauture/home/navigation_menu.dart';
 import 'package:carstore/feauture/profile/profile_provider.dart';
+import 'package:carstore/feauture/profile/sub/settings_page.dart';
 import 'package:carstore/feauture/profile/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
@@ -72,18 +73,16 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 ),
                
                 _BuyButton(() {
-                  setState(() {
-                    ref.read(_profilProvider.notifier).pickImage().then(
-                        (value) => ref
-                            .read(_profilProvider.notifier)
-                            .getCurrentUser());
-                  }); 
                 }),
                 Container(
                   height: 40,
                   color: Colors.transparent,
                 ),
-                _ProfileListtile(title: StringConstants.settingsText),
+                GestureDetector(
+                  onTap: () {
+                    context.route.navigateToPage(SettingsPage());
+                  },
+                  child: _ProfileListtile(title: StringConstants.changePassword)),
                 _ProfileListtile(
                     title: StringConstants.userManageText,
                     iconLead: Icons.person),
