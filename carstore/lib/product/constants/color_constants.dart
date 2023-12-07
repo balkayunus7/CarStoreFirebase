@@ -10,4 +10,5 @@ class ColorConstants {
   static const Color textFieldGrey = Color(0xffEDEEEF);
   static const Color primaryGrey = Colors.grey;
   static const Color primaryDark = Colors.black;
+  static const Color primaryTextButton = Color.fromARGB(255, 4, 65, 232);
 }

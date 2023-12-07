@@ -11,7 +11,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
   ProfileNotifier() : super(ProfileState());
 
 
-  Future<void> updateProfilePhoto(String newProfilePhoto) async {
+  Future<void> UpdateProfilePhoto(String newProfilePhoto) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final userUid = user.uid;
@@ -22,17 +22,17 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
     }
   }
 
-  Future<void> pickImage() async {
+  Future<void> PickImage() async {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
     if (image != null) {
-      await updateProfilePhoto(image.path);
+      await UpdateProfilePhoto(image.path);
       state = state.copyWith(newProfilePhoto: image.path);
     }
   }
 
-  Future<void> getCurrentUser() async {
+  Future<void> GetCurrentUser() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final userUid = user.uid;
@@ -50,15 +50,37 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
     }
   }
 
-  Future<void> changePassword(String newPassword) async {
+  Future<void> ChangePassword(String oldPassword, String newPassword) async {
     final user = FirebaseAuth.instance.currentUser;
+
     if (user != null) {
-      await user.updatePassword(newPassword);
-      final userUid = user.uid;
-      await FirebaseFirestore.instance.collection('users').doc(userUid).update(
-        {'password': newPassword},
-      );
+      try {
+
+        await user.updatePassword(newPassword);
+
+        final userUid = user.uid;
+        await FirebaseFirestore.instance.collection('users').doc(userUid).update(
+          {'password': newPassword},
+        );
+      } on FirebaseAuthException catch (e) {
+        print('Şifre değiştirme hatası: ${e.message}');
+      }
     }
+
+    Future<void> ChangeUsername(String name) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      try {
+        final userUid = user.uid;
+        await FirebaseFirestore.instance.collection('users').doc(userUid).update(
+          {'name': name},
+        );
+      } on FirebaseAuthException catch (e) {
+        print('Username değiştirme hatası: ${e.message}');
+      }
+    }
+  }
   }
 }
 

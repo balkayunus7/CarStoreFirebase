@@ -3,6 +3,7 @@ import 'package:carstore/feauture/auth/network/firebase_auth.dart';
 import 'package:carstore/feauture/home/navigation_menu.dart';
 import 'package:carstore/feauture/profile/profile_provider.dart';
 import 'package:carstore/feauture/profile/sub/settings_page.dart';
+import 'package:carstore/feauture/profile/sub/user_management.dart';
 import 'package:carstore/feauture/profile/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
@@ -31,7 +32,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => ref.read(_profilProvider.notifier).getCurrentUser());
+    Future.microtask(() => ref.read(_profilProvider.notifier).GetCurrentUser());
   }
 
   @override
@@ -71,8 +72,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 SizedBox(
                   height: 20,
                 ),
-               
                 _BuyButton(() {
+                  context.route.navigateToPage(UserManagementPage());
                 }),
                 Container(
                   height: 40,

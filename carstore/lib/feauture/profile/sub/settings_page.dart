@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
 
-final _profilProvider =
+final profilProvider =
     StateNotifierProvider<ProfileNotifier, ProfileState>((ref) {
   return ProfileNotifier();
 });
@@ -37,7 +37,10 @@ class SettingsPage extends ConsumerWidget {
       body: Column(
         children: [
           Center(
-            child:IconConstants.lock.toImage,
+            child:Padding(
+              padding: context.padding.normal,
+              child: IconConstants.lock.toImage,
+            ),
           ),
           TitleText(title: StringConstants.titlePassword, color: ColorConstants.primaryOrange),
           Padding(
@@ -60,14 +63,13 @@ class SettingsPage extends ConsumerWidget {
               child: BuyButton(
                 onPressed: () {
                   if (_passwordController.text == _againPassworldController.text) {
-                     ref.read(_profilProvider.notifier).changePassword(_passwordController.text);
-                  context.route.pop();
+                    ref.watch(profilProvider.notifier).ChangePassword(_passwordController.text, _againPassworldController.text).then((value) => context.route.pop());
                   }
                   else {
-                    showAboutDialog(context: context, applicationName: "Şifreler Uyuşmuyor", applicationVersion: "Lütfen Tekrar Deneyiniz");
+                    showAboutDialog(context: context, applicationName: StringConstants.passwordDialogText, applicationVersion:StringConstants.passwordDialogMessage);
                   }
                 },
-                iconText: 'Change Password',
+                iconText:StringConstants.iconPasswordtext,
               ),
             ),
           ),
@@ -76,6 +78,4 @@ class SettingsPage extends ConsumerWidget {
 
     );
   }
-
-  
 }

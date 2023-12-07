@@ -50,4 +50,10 @@ class StringConstants {
   static const String confirmPassword = 'Confirm Password';
   static const String titlePassword="Reset your password";
   static const String titlePasswordMessage="Enter your email address and we will send you a link to reset your password.";
+  static const String iconPasswordtext= 'Change Password';
+  static const String passwordDialogText = "Passwords Don't Match";
+  static const String passwordDialogMessage = 'Please check your password again';
+
+  // User Management Page
+  static const String userManagementTitle = 'Resmi Düzenle';
 }
