@@ -94,6 +94,8 @@ class _CustomTextfield extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appThemeState = ref.watch(appThemeStateNotifier);
+
     return TextField(
       onTap: () {
         showSearch(
@@ -106,7 +108,10 @@ class _CustomTextfield extends ConsumerWidget {
       decoration: InputDecoration(
         filled: true,
         hintText: StringConstants.textfieldSearch,
+        hintStyle: context.general.textTheme.bodyMedium!
+            .copyWith(color: ColorConstants.primaryDark),
         prefixIcon: const Icon(Icons.search),
+        prefixIconColor: ColorConstants.primaryDark,
         fillColor: ColorConstants.textFieldGrey,
         border: OutlineInputBorder(
           borderSide: BorderSide.none,

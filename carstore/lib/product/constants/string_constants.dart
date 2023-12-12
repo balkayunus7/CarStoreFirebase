@@ -55,5 +55,11 @@ class StringConstants {
   static const String passwordDialogMessage = 'Please check your password again';
 
   // User Management Page
-  static const String userManagementTitle = 'Resmi Düzenle';
+  static const String userManagementTitle= 'Edit Profile';
+  static const String userManagementButton= 'Edit Profile Photo';
+  static const String userManagementName = 'Name';
+  static const String userManagementUsername = 'Username';
+  static const String userManagementBio = 'Bio';
+  static const String userManagementEdit= 'Confirm changes';
+
 }

@@ -1,6 +1,7 @@
 import 'package:carstore/feauture/auth/sub_view.dart/custom_textform.dart';
 import 'package:carstore/feauture/item/selected_item_view.dart';
 import 'package:carstore/feauture/profile/profile_provider.dart';
+import 'package:carstore/feauture/profile/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/enums/image_constants.dart';
@@ -24,10 +25,11 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
+    final appTheme= ref.watch(appThemeStateNotifier);
     return Scaffold(
       appBar: CustomAppBar(
         'Settings',
-        iconColor: ColorConstants.primaryDark,
+        iconColor: appTheme.isDarkModeEnabled ? ColorConstants.primaryWhite:ColorConstants.primaryTextButton,
         onPressed: () {
         context.route.pop();
         },
@@ -42,10 +44,10 @@ class SettingsPage extends ConsumerWidget {
               child: IconConstants.lock.toImage,
             ),
           ),
-          TitleText(title: StringConstants.titlePassword, color: ColorConstants.primaryOrange),
+          TitleText(title: StringConstants.titlePassword,color:appTheme.isDarkModeEnabled ? ColorConstants.primaryWhite:ColorConstants.primaryOrange),
           Padding(
             padding: context.padding.normal,
-            child: SubtitleText(subtitle: StringConstants.titlePasswordMessage, color: ColorConstants.primaryDark),
+            child: SubtitleText(subtitle: StringConstants.titlePasswordMessage, color:appTheme.isDarkModeEnabled ? ColorConstants.primaryWhite:ColorConstants.primaryDark),
           ),
           const SizedBox(height:50),
           Padding(

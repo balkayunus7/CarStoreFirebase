@@ -1,4 +1,6 @@
+import 'package:carstore/feauture/auth/network/firestore_service.dart';
 import 'package:carstore/product/models/users.dart';
+import 'package:carstore/product/utilities/firebase/firebase_collections.dart';
 import 'package:carstore/product/utilities/firebase/firebase_utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -52,36 +54,32 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
 
   Future<void> ChangePassword(String oldPassword, String newPassword) async {
     final user = FirebaseAuth.instance.currentUser;
+    final fstore=FirestoreService();
 
     if (user != null) {
       try {
-
         await user.updatePassword(newPassword);
-
         final userUid = user.uid;
-        await FirebaseFirestore.instance.collection('users').doc(userUid).update(
-          {'password': newPassword},
-        );
-      } on FirebaseAuthException catch (e) {
-        print('Şifre değiştirme hatası: ${e.message}');
-      }
-    }
+         fstore.updateDataToFirestore({'password': newPassword},FirebaseCollections.users.name, userUid);
 
-    Future<void> ChangeUsername(String name) async {
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      try {
-        final userUid = user.uid;
-        await FirebaseFirestore.instance.collection('users').doc(userUid).update(
-          {'name': name},
-        );
       } on FirebaseAuthException catch (e) {
-        print('Username değiştirme hatası: ${e.message}');
+        print(e.message);
       }
     }
   }
-  }
+
+    Future<void> ChangeUsername(String name,String bio) async {
+      final user = FirebaseAuth.instance.currentUser;
+      final fstore=FirestoreService();
+      if (user != null) {
+        try {
+        final userUid = user.uid;
+        fstore.updateDataToFirestore({'name': name,'bio':bio},FirebaseCollections.users.name, userUid); 
+        } catch (e) {
+          print(e); 
+        }   
+      }
+    }
 }
 
 class ProfileState extends Equatable {

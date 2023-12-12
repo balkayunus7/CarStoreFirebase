@@ -32,6 +32,7 @@ class AuthProvider extends ChangeNotifier {
   Future<UserCredential> signUpUserWithFirebase(
       String email, String password, String name) async {
     var isSuccessful = false;
+     String bio = ' ';
     _setLoader(true);
     _userCredential =
         await _fAuth.signUpUserWithFirebase(email, password, name);
@@ -39,6 +40,7 @@ class AuthProvider extends ChangeNotifier {
       'name': name,
       'email': email,
       'password': password,
+      'bio': bio,
       'uid': _userCredential!.user!.uid,
       'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
       'profilePhoto':

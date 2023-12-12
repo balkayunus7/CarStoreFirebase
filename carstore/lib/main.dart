@@ -1,5 +1,5 @@
+import 'package:carstore/feauture/home/navigation_menu.dart';
 import 'package:carstore/feauture/profile/theme_provider.dart';
-import 'package:carstore/feauture/splash/splash_view.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/initealize/app_builder.dart';
 import 'package:carstore/product/initealize/app_theme.dart';
@@ -28,7 +28,7 @@ class MyApp extends ConsumerWidget {
       builder: (context, child) => AppBuilder(child).build(),
       title: StringConstants.appName,
       debugShowCheckedModeBanner: false,
-      home: SplashView(),
+      home: NavigationMenu(),
       theme:appThemeState.isDarkModeEnabled ? darkMode: AppTheme(context: context).theme,
       darkTheme: darkMode,
     );

@@ -32,8 +32,10 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => ref.read(_profilProvider.notifier).GetCurrentUser());
+    ref.read(_profilProvider.notifier).GetCurrentUser();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -84,11 +86,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                     context.route.navigateToPage(SettingsPage());
                   },
                   child: _ProfileListtile(title: StringConstants.changePassword)),
-                _ProfileListtile(
-                    title: StringConstants.userManageText,
-                    iconLead: Icons.person),
-                _ProfileListtile(
-                    title: StringConstants.infoText, iconLead: Icons.info),
+                const SizedBox(height: 10,),
                 GestureDetector(
                   onTap: () {
                     _fAuth.signOutUser();
