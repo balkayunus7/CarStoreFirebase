@@ -1,6 +1,5 @@
 # CarStoreFirebase
 
-Register/Login
 ![Simulator Screenshot - iPhone 13 - 2023-12-12 at 14 02 10](https://github.com/balkayunus7/CarStoreFirebase/assets/98759759/acb1baa0-5fce-4f16-8487-1767b149a933)
 ![Simulator Screenshot - iPhone 13 - 2023-12-12 at 14 02 13](https://github.com/balkayunus7/CarStoreFirebase/assets/98759759/26928899-d1b2-4742-baa1-2428fae9f0e5)
 ![Simulator Screenshot - iPhone 13 - 2023-12-12 at 14 01 26](https://github.com/balkayunus7/CarStoreFirebase/assets/98759759/acf97fe6-355d-466d-842c-0cdfa3919603)
