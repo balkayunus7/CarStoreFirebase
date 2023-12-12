@@ -9,4 +9,5 @@
 ![Simulator Screenshot - iPhone 13 - 2023-12-12 at 14 01 41](https://github.com/balkayunus7/CarStoreFirebase/assets/98759759/f68bd55d-6c45-4f29-ada7-31bedda85b1d)
 ![Simulator Screenshot - iPhone 13 - 2023-12-12 at 14 01 56](https://github.com/balkayunus7/CarStoreFirebase/assets/98759759/223c84e6-e25c-4b85-a94c-b82176801e5a)
 ![Simulator Screenshot - iPhone 13 - 2023-12-12 at 14 01 51](https://github.com/balkayunus7/CarStoreFirebase/assets/98759759/65f27742-69f2-4ed9-8cbf-f0413eca83e3)
+![Simulator Screenshot - iPhone 13 - 2023-12-12 at 14 01 48](https://github.com/balkayunus7/CarStoreFirebase/assets/98759759/662be2f9-3a1d-4661-846c-60456f778855)
 
