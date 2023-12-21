@@ -4,18 +4,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+
+// Define AuthProvider which extends ChangeNotifier
 class AuthProvider extends ChangeNotifier {
+  // Define private variables
   bool _isLoading = false;
   UserCredential? _userCredential;
   Map<String, dynamic> _userData = {};
   FirebaseAuthClass _fAuth = FirebaseAuthClass();
   FirestoreService _fstore = FirestoreService();
 
+  // Define getters for private variables
   bool get isLoading => _isLoading;
   UserCredential? get userCredential => _userCredential;
   Map<String, dynamic> get userData => _userData;
 
-  // * Login User
+  // Define method to login user with Firebase
   Future<UserCredential> loginUserWithFirebase(
       String email, String password) async {
     _setLoader(true);
@@ -24,15 +28,15 @@ class AuthProvider extends ChangeNotifier {
       return _userCredential!;
     } catch (e) {
       _setLoader(false);
-      return Future.error(e);
+      throw Exception('  Email or password is wrong');
     }
   }
 
-  // * Sign Up User
+  // Define method to sign up user with Firebase
   Future<UserCredential> signUpUserWithFirebase(
       String email, String password, String name) async {
     var isSuccessful = false;
-     String bio = ' ';
+    String bio = ' ';
     _setLoader(true);
     _userCredential =
         await _fAuth.signUpUserWithFirebase(email, password, name);
@@ -52,11 +56,11 @@ class AuthProvider extends ChangeNotifier {
     if (isSuccessful) {
       return _userCredential!;
     } else {
-      throw Exception('Error while adding user to database');
+      throw Exception('Please enter your e-mail address correctly');
     }
   }
 
-  // * Add User to Database
+  // Define method to add user to database
   Future<bool> addUserToDatabase(
       Map<String, dynamic> data, String collectionName, String docName) async {
     var value = false;
@@ -69,11 +73,13 @@ class AuthProvider extends ChangeNotifier {
     return value;
   }
 
+  // Define private method to set loader
   void _setLoader(bool loader) {
     _isLoading = loader;
     notifyListeners();
   }
 }
 
+// Define provider for AuthProvider
 final authProvider =
     ChangeNotifierProvider<AuthProvider>((ref) => AuthProvider());

@@ -1,7 +1,7 @@
-import 'package:carstore/feauture/home/home_provider.dart';
+import 'package:carstore/feauture/home/providers/home_provider.dart';
 import 'package:carstore/feauture/home/sub_view/home_chips.dart';
 import 'package:carstore/feauture/home/sub_view/home_search_delegate.dart';
-import 'package:carstore/feauture/profile/theme_provider.dart';
+import 'package:carstore/feauture/profile/providers/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/widget/card/home_news_card.dart';
@@ -11,6 +11,8 @@ import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
+
+import '../../product/enums/index.dart';
 
 // * State notifier provider created to be used
 final _homeProvider = StateNotifierProvider<HomeNotifier, HomeState>((ref) {
@@ -94,8 +96,6 @@ class _CustomTextfield extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appThemeState = ref.watch(appThemeStateNotifier);
-
     return TextField(
       onTap: () {
         showSearch(
@@ -115,7 +115,7 @@ class _CustomTextfield extends ConsumerWidget {
         fillColor: ColorConstants.textFieldGrey,
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: WidgetSizeConstants.borderRadiusNormal,
         ),
       ),
     );

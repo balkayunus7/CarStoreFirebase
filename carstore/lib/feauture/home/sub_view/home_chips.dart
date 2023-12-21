@@ -1,4 +1,4 @@
-import 'package:carstore/feauture/profile/theme_provider.dart';
+import 'package:carstore/feauture/profile/providers/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/models/tag.dart';
 import 'package:flutter/material.dart';

@@ -1,18 +1,23 @@
+
+import 'dart:io';
+
 import 'package:carstore/feauture/auth/login_view.dart';
 import 'package:carstore/feauture/auth/network/firebase_auth.dart';
 import 'package:carstore/feauture/home/navigation_menu.dart';
-import 'package:carstore/feauture/profile/profile_provider.dart';
+import 'package:carstore/feauture/profile/providers/profile_provider.dart';
 import 'package:carstore/feauture/profile/sub/settings_page.dart';
 import 'package:carstore/feauture/profile/sub/user_management.dart';
-import 'package:carstore/feauture/profile/theme_provider.dart';
+import 'package:carstore/feauture/profile/providers/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
+import 'package:carstore/product/enums/widget_sizes.dart';
 import 'package:carstore/product/widget/icon_button/custom_icon_button.dart';
 import 'package:carstore/product/widget/text/subtitle_text.dart';
 import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
+
 // * State notifier provider created to be used in the profile page
 final _profilProvider =
     StateNotifierProvider<ProfileNotifier, ProfileState>((ref) {
@@ -35,12 +40,12 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     ref.read(_profilProvider.notifier).GetCurrentUser();
   }
 
-  
 
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(_profilProvider).currentUser;
-    final appThemeState = ref.watch(appThemeStateNotifier);
+    final appThemeState = ref.read(appThemeStateNotifier);
+    final appStateColor=ref.watch(appThemeStateNotifier).isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite;
     final FirebaseAuthClass _fAuth = FirebaseAuthClass();
     if (currentUser != null) {
       return Scaffold(
@@ -53,32 +58,34 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             padding: context.padding.onlyTopNormal,
             child: Column(
               children: [
-                CircleAvatar(
+
+                 CircleAvatar(
                   radius: 50,
-                  backgroundImage: Image.network(currentUser.profilePhoto ?? '')
-                      .image,
+                  backgroundImage: FileImage(
+                    File(currentUser.profilePhoto ?? ''),
+                  ),
                 ),
                 
                 SizedBox(
-                  height: 10,
+                  height: WidgetSize.sizedBoxLow.value,
                 ),
                 TitleText(
                     title: currentUser.name ?? '',
-                    color: appThemeState.isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite),
+                    color: appStateColor,),
                 SizedBox(
-                  height: 5,
+                  height: WidgetSize.sizedBoxLow.value,
                 ),
                 SubtitleText(
                     subtitle: currentUser.email ?? '',
-                    color:  appThemeState.isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite),
+                    color: appStateColor),
                 SizedBox(
-                  height: 20,
+                  height: WidgetSize.sizedBoxNormal.value,
                 ),
                 _BuyButton(() {
                   context.route.navigateToPage(UserManagementPage());
                 }),
                 Container(
-                  height: 40,
+                  height: WidgetSize.sizedBoxBig.value,
                   color: Colors.transparent,
                 ),
                 GestureDetector(
@@ -86,7 +93,6 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                     context.route.navigateToPage(SettingsPage());
                   },
                   child: _ProfileListtile(title: StringConstants.changePassword)),
-                const SizedBox(height: 10,),
                 GestureDetector(
                   onTap: () {
                     _fAuth.signOutUser();
@@ -119,7 +125,7 @@ class ThemeIcon extends ConsumerWidget {
     return IconButton(
    icon: Icon(
     appThemeState.isDarkModeEnabled ? Icons.wb_sunny_outlined : Icons.nightlight_outlined,
-    color: appThemeState.isDarkModeEnabled ? Colors.white : Colors.black,
+    color: appThemeState.isDarkModeEnabled ? ColorConstants.primaryWhite : ColorConstants.primaryDark,
    ),
    onPressed: () {
     if (appThemeState.isDarkModeEnabled) {
@@ -154,7 +160,7 @@ class _ProfileListtile extends ConsumerWidget {
           height: 40,
           width: 40,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
+              borderRadius: WidgetSizeConstants.borderRadiusBig,
               color: appThemeState.isDarkModeEnabled == false ? Colors.grey.shade300 :ColorConstants.primaryWhite),
           child: Icon(
             iconLead,
@@ -172,7 +178,7 @@ class _ProfileListtile extends ConsumerWidget {
           height: 40,
           width: 40,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
+              borderRadius: WidgetSizeConstants.borderRadiusBig,
               color: Colors.white.withOpacity(0.1)),
           child: Icon(
             Icons.arrow_forward_ios,
@@ -228,10 +234,6 @@ class _BuyButton extends StatelessWidget {
   }
 }
 
-
-
-
-
 class _CustomAppBar extends PreferredSize {
   _CustomAppBar(
     this.title, this.iconColor, {
@@ -261,7 +263,7 @@ class _CustomAppBar extends PreferredSize {
       actions: [
         ThemeIcon(),
         SizedBox(
-          width: 10,)
+          width:WidgetSize.sizedBoxNormal.value,)
       ],
       backgroundColor: Colors.transparent,
     );

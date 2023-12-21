@@ -1,4 +1,5 @@
 import 'package:carstore/product/constants/color_constants.dart';
+import 'package:carstore/product/enums/widget_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
@@ -28,10 +29,10 @@ class CustomTextfield extends StatelessWidget {
           ),
           hintStyle: context.general.textTheme.bodyMedium,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: WidgetSizeConstants.borderRadiusNormal,
           ),
           errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: WidgetSizeConstants.borderRadiusNormal,
             borderSide: BorderSide(
               color: Colors.red,
               width: 2,
@@ -39,7 +40,7 @@ class CustomTextfield extends StatelessWidget {
           ),
           enabled: true,
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: WidgetSizeConstants.borderRadiusNormal,
             borderSide: BorderSide(
               color: ColorConstants.primaryOrange,
               width: 3,

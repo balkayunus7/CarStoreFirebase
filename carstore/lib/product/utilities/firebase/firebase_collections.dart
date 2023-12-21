@@ -5,6 +5,7 @@ enum FirebaseCollections {
   cars,
   tag,
   recomanded,
+  selected_cars,
   users;
 
   CollectionReference get reference =>

@@ -1,6 +1,7 @@
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
+import 'package:carstore/product/enums/widget_sizes.dart';
 import 'package:carstore/product/models/cars.dart';
 import 'package:carstore/product/widget/app_bar/custom_appbar.dart';
 import 'package:carstore/product/widget/icon_button/custom_icon_button.dart';
@@ -19,11 +20,12 @@ class SelectedItemPage extends StatefulWidget {
 }
 
 class _SelectedItemPageState extends State<SelectedItemPage> {
+  // final values 
   final PageController _pageController = PageController();
-
   late CustomVideoPlayerController _customVideoPlayerController;
   late VideoPlayerController _videoPlayerController;
 
+  // Methods for Video Player
   @override
   void initState() {
     super.initState();
@@ -47,6 +49,7 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Custom App Bar
       appBar: CustomAppBar(StringConstants.appName,
           preferredSize: Size.fromHeight(kToolbarHeight),
           iconColor: ColorConstants.primaryDark,
@@ -204,13 +207,13 @@ class BuyButton extends StatelessWidget {
         onPressed: onPressed,
         child: SizedBox(
           width: double.infinity,
-          height: 65,
+          height: WidgetSize.sizedBoxBig.value,
           child: Center(
             child: Text(
               iconText,
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
+                color: ColorConstants.primaryWhite,
+                fontSize: WidgetSize.fontSizeNormal.value,
                 fontWeight: FontWeight.w700,
               ),
               textAlign: TextAlign.center,

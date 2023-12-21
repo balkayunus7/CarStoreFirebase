@@ -8,38 +8,42 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
   ProfileNotifier() : super(ProfileState());
 
-
+  // Method to update profile photo
   Future<void> UpdateProfilePhoto(String newProfilePhoto) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final userUid = user.uid;
-      await FirebaseFirestore.instance.collection('users').doc(userUid).update(
+      // Updating profile photo in Firestore
+      await FirebaseFirestore.instance.collection(FirebaseCollections.users.name).doc(userUid).update(
         {'profilePhoto': newProfilePhoto},
       );
+      // Updating state
       state = state.copyWith(newProfilePhoto: newProfilePhoto);
     }
   }
 
+  // Method to pick image from gallery
   Future<void> PickImage() async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
+      // Updating profile photo with picked image
       await UpdateProfilePhoto(image.path);
       state = state.copyWith(newProfilePhoto: image.path);
     }
   }
 
+  // Method to get current user
   Future<void> GetCurrentUser() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final userUid = user.uid;
       final userDocument = await FirebaseFirestore.instance
-          .collection('users')
+          .collection(FirebaseCollections.users.name)
           .doc(userUid)
           .get();
 
@@ -52,15 +56,18 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
     }
   }
 
+  // Method to change password
   Future<void> ChangePassword(String oldPassword, String newPassword) async {
     final user = FirebaseAuth.instance.currentUser;
     final fstore=FirestoreService();
 
     if (user != null) {
       try {
+        // Updating password in Firebase Auth
         await user.updatePassword(newPassword);
         final userUid = user.uid;
-         fstore.updateDataToFirestore({'password': newPassword},FirebaseCollections.users.name, userUid);
+        // Updating password in Firestore
+        fstore.updateDataToFirestore({'password': newPassword},FirebaseCollections.users.name, userUid);
 
       } on FirebaseAuthException catch (e) {
         print(e.message);
@@ -68,32 +75,36 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
     }
   }
 
-    Future<void> ChangeUsername(String name,String bio) async {
-      final user = FirebaseAuth.instance.currentUser;
-      final fstore=FirestoreService();
-      if (user != null) {
-        try {
+  // Method to change username
+  Future<void> ChangeUsername(String name,String bio) async {
+    final user = FirebaseAuth.instance.currentUser;
+    final fstore=FirestoreService();
+    if (user != null) {
+      try {
         final userUid = user.uid;
+        // Updating username and bio in Firestore
         fstore.updateDataToFirestore({'name': name,'bio':bio},FirebaseCollections.users.name, userUid); 
-        } catch (e) {
-          print(e); 
-        }   
-      }
+      } catch (e) {
+        print(e); 
+      }   
     }
+  }
 }
 
+// ProfileState class extends Equatable
 class ProfileState extends Equatable {
   ProfileState({this.currentUser, this.newProfilePhoto});
-    
 
   final Users? currentUser;
   final String? newProfilePhoto;
 
+  // Overriding props method for Equatable
   @override
   List<Object?> get props => [currentUser, newProfilePhoto];
 
+  // Method to copy ProfileState with new values
   ProfileState copyWith({
-    Users? currentUser,
+    Users? currentUser, 
     String? newProfilePhoto,
   }) {
     return ProfileState(

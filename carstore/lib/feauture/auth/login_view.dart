@@ -11,6 +11,7 @@ import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
+import '../../product/enums/index.dart';
 
 class LoginPage extends ConsumerWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class LoginPage extends ConsumerWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: context.padding.low.copyWith(top: 180),
+          padding: context.padding.low.copyWith(top: WidgetSize.paddingAuthTop.value),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -47,12 +48,29 @@ class LoginPage extends ConsumerWidget {
                     onPressed: () {
                       authNotifer
                           .loginUserWithFirebase(
-                              _emailController.text, _passwordController.text)
+                              // ignore: body_might_complete_normally_catch_error
+                              _emailController.text, _passwordController.text).catchError((e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Login is Failed! ${e.toString()}'),
+                                  backgroundColor: ColorConstants.primaryRed,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: WidgetSizeConstants.borderRadiusNormal,
+                                  ),
+                                  showCloseIcon: true,
+                                  onVisible: () {
+                                    Future.delayed(const Duration(seconds: 5), () {
+                                      ScaffoldMessenger.of(context).clearSnackBars();
+                                    });
+                                  },
+                                  ),
+                                );
+                              })
                           .then((value) => Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const NavigationMenu())));
+                                      const NavigationMenu()))
+                                      );
                     },
                     iconText: StringConstants.login),
                 Padding(
@@ -84,7 +102,7 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 20),
+        SizedBox(height: WidgetSize.sizedBoxNormal.value),
         Padding(
           padding: context.padding.onlyBottomNormal,
           child: ClipRRect(

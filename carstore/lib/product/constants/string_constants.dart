@@ -17,6 +17,7 @@ class StringConstants {
   static const String routingTextLogin = 'A new gym trainer? Sign up now!';
   static const String routingTextRegister =
       'Are you already trainer? Sign in now!';
+      
 
   // Home
   static const String homeBrowse = 'CarStore';
@@ -24,6 +25,11 @@ class StringConstants {
   static const String homeTitle = 'Recommended ';
   static const String homeSeeAll = 'See All';
   static const String textfieldSearch = 'Search';
+
+  // Navigation Menu
+  static const String navigationMenuHome = 'Home';
+  static const String navigationMenuSaved = 'Saved';
+  static const String navigationMenuProfile = 'Profile';
 
   // Selected Item
   static const String tagHandshake = 'Contact Dealer';
@@ -61,5 +67,6 @@ class StringConstants {
   static const String userManagementUsername = 'Username';
   static const String userManagementBio = 'Bio';
   static const String userManagementEdit= 'Confirm changes';
+
 
 }

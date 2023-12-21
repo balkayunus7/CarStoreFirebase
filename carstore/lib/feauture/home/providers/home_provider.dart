@@ -8,23 +8,32 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// HomeNotifier class extends StateNotifier and includes FirebaseUtility
 class HomeNotifier extends StateNotifier<HomeState> with FirebaseUtility {
   HomeNotifier() : super(const HomeState());
 
+  // List to hold all cars and saved cars
   List<Cars> fullCarList = [];
   List<Cars> savedCarsList = [];
 
+  // Function to get saved cars from Firebase
   Future<void> getSavedCars() async {
+    // Get current user
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final userUid = user.uid;
       final userDocument =
-          FirebaseFirestore.instance.collection('Users').doc(userUid);
-      final selectedCarsCollection = userDocument.collection('selected_cars');
+          FirebaseFirestore.instance.collection(FirebaseCollections.users.name).doc(userUid);
 
+      // Get selected cars collection from user's document
+      final selectedCarsCollection = userDocument.collection(FirebaseCollections.selected_cars.name);
+
+      // Get snapshot of selected cars collection
       final QuerySnapshot querySnapshot = await selectedCarsCollection.get();
 
+      // If there are documents in the snapshot
       if (querySnapshot.docs.isNotEmpty) {
+        // Map each document to a Cars object and add to a list
         final List<Cars> item = querySnapshot.docs.map((doc) {
           final data = doc.data() as Map<String, dynamic>;
           return Cars().fromJson(data);
@@ -40,36 +49,43 @@ class HomeNotifier extends StateNotifier<HomeState> with FirebaseUtility {
     }
   }
 
+  // Function to save selected car to Firebase
   Future<void> saveSelectedCar(Cars selectedCar) async {
+    // Get current user
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final userUid = user.uid;
       final userDocument =
-          FirebaseFirestore.instance.collection('users').doc(userUid);
+          FirebaseFirestore.instance.collection(FirebaseCollections.users.name).doc(userUid);
 
-      final selectedCarsCollection = userDocument.collection('selected_cars');
-      //*  same car can not be added to the list
+      // Get selected cars collection from user's document
+      final selectedCarsCollection = userDocument.collection(FirebaseCollections.selected_cars.name);
+      // Check if car already exists in collection
       final querySnapshot = await selectedCarsCollection
           .where('id', isEqualTo: selectedCar.id)
           .get();
 
+      // If car does not exist, add it to collection
       if (querySnapshot.docs.isEmpty) {
         await selectedCarsCollection.add(selectedCar.toJson());
       }
     }
   }
 
+  // Function to fetch all cars from Firebase
   Future<void> fetchCars() async {
     final item = await fetchList<Cars, Cars>(Cars(), FirebaseCollections.cars);
     state = state.copyWith(cars: item);
     fullCarList = item ?? [];
   }
 
+  // Function to fetch all tags from Firebase
   Future<void> fetchTags() async {
     final item = await fetchList<Tag, Tag>(Tag(), FirebaseCollections.tag);
     state = state.copyWith(tag: item);
   }
 
+  // Function to fetch all recommended cars from Firebase
   Future<void> fetchRecommanded() async {
     final item = await fetchList<Recommended, Recommended>(
       Recommended(),
@@ -78,6 +94,7 @@ class HomeNotifier extends StateNotifier<HomeState> with FirebaseUtility {
     state = state.copyWith(recommended: item);
   }
 
+  // Function to fetch all data and update state
   Future<void> fetchAndLoad() async {
     state = state.copyWith(isLoading: true);
     await Future.wait([
@@ -89,8 +106,7 @@ class HomeNotifier extends StateNotifier<HomeState> with FirebaseUtility {
   }
 }
 
-//* state notifier provider created to be used
-
+// HomeState class extends Equatable
 class HomeState extends Equatable {
   const HomeState(
       {this.isLoading,
@@ -105,6 +121,7 @@ class HomeState extends Equatable {
   final List<Cars>? selectedCars;
   final bool? isLoading;
 
+  // Override props for Equatable
   @override
   List<Object?> get props => [
         cars,
@@ -114,6 +131,7 @@ class HomeState extends Equatable {
         selectedCars,
       ];
 
+  // Function to copy HomeState with new values
   HomeState copyWith({
     List<Cars>? cars,
     bool? isLoading,

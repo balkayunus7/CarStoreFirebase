@@ -1,10 +1,11 @@
 import 'package:carstore/feauture/auth/sub_view.dart/custom_textform.dart';
 import 'package:carstore/feauture/item/selected_item_view.dart';
-import 'package:carstore/feauture/profile/profile_provider.dart';
-import 'package:carstore/feauture/profile/theme_provider.dart';
+import 'package:carstore/feauture/profile/providers/profile_provider.dart';
+import 'package:carstore/feauture/profile/providers/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/enums/image_constants.dart';
+import 'package:carstore/product/enums/widget_sizes.dart';
 import 'package:carstore/product/widget/app_bar/custom_appbar.dart';
 import 'package:carstore/product/widget/text/subtitle_text.dart';
 import 'package:carstore/product/widget/text/title_text.dart';
@@ -49,7 +50,7 @@ class SettingsPage extends ConsumerWidget {
             padding: context.padding.normal,
             child: SubtitleText(subtitle: StringConstants.titlePasswordMessage, color:appTheme.isDarkModeEnabled ? ColorConstants.primaryWhite:ColorConstants.primaryDark),
           ),
-          const SizedBox(height:50),
+           SizedBox(height:WidgetSize.sizedBoxBig.value),
           Padding(
             padding: context.padding.horizontalNormal,
             child: CustomTextfield(controller: _passwordController, hintText: StringConstants.passworld, obscureText: false, icon: Icons.lock),

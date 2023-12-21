@@ -1,7 +1,7 @@
 import 'package:carstore/feauture/home/navigation_menu.dart';
 import 'package:carstore/feauture/item/selected_item_view.dart';
-import 'package:carstore/feauture/profile/theme_provider.dart';
-import 'package:carstore/feauture/save/saved_provider.dart';
+import 'package:carstore/feauture/profile/providers/theme_provider.dart';
+import 'package:carstore/feauture/save/providers/saved_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/enums/image_sizes.dart';

@@ -2,9 +2,12 @@ import 'package:carstore/feauture/home/home_view.dart';
 import 'package:carstore/feauture/profile/profile_view.dart';
 import 'package:carstore/feauture/save/saved_view.dart';
 import 'package:carstore/product/constants/color_constants.dart';
+import 'package:carstore/product/enums/widget_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kartal/kartal.dart';
+
+import '../../product/constants/string_constants.dart';
 
 class NavigationMenu extends StatefulWidget {
   const NavigationMenu({super.key});
@@ -26,7 +29,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
       bottomNavigationBar: Container(
         color: ColorConstants.primaryDark,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          padding: WidgetSizeConstants.navigationPadding,
           child: GNav(
             selectedIndex: currentIndex,
             gap: 8,
@@ -43,15 +46,15 @@ class _NavigationMenuState extends State<NavigationMenu> {
             tabs: [
               GButton(
                 icon: Icons.home,
-                text: 'Home',
+                text: StringConstants.navigationMenuHome,
               ),
               GButton(
                 icon: Icons.save,
-                text: 'Saved',
+                text: StringConstants.navigationMenuSaved,
               ),
               GButton(
                 icon: Icons.person,
-                text: 'Profile',
+                text: StringConstants.navigationMenuProfile,
               ),
             ],
           ),

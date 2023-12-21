@@ -1,6 +1,9 @@
-import 'package:carstore/feauture/profile/profile_provider.dart';
+
+import 'dart:io';
+
+import 'package:carstore/feauture/profile/providers/profile_provider.dart';
 import 'package:carstore/feauture/profile/profile_view.dart';
-import 'package:carstore/feauture/profile/theme_provider.dart';
+import 'package:carstore/feauture/profile/providers/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/widget/app_bar/custom_appbar.dart';
@@ -52,14 +55,19 @@ class _UserManagementPageState extends ConsumerState<UserManagementPage> {
       ),
       body: Column(
         children: [
-          CircleAvatar(
+          
+           CircleAvatar(
                   radius: 50,
-                  backgroundImage: Image.network(currentUser.profilePhoto ?? '')
-                      .image,
+                  backgroundImage: FileImage(
+                    File(currentUser.profilePhoto ?? ''),
+                  ),
                 ),
+          
            Center(
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                ref.watch(profilProvider.notifier).PickImage();
+              },
               child: Text(StringConstants.userManagementButton,
                           style: context.general.textTheme.bodyMedium!
                               .copyWith(fontWeight: FontWeight.bold,color:appTheme.isDarkModeEnabled ? ColorConstants.primaryWhite:ColorConstants.primaryTextButton)),
