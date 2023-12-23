@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import '../../product/enums/index.dart';
-
 class LoginPage extends ConsumerWidget {
   LoginPage({Key? key}) : super(key: key);
   final TextEditingController _emailController = TextEditingController();
@@ -85,7 +84,7 @@ class LoginPage extends ConsumerWidget {
                       child: Text(StringConstants.routingTextLogin,
                           style: context.general.textTheme.bodyMedium!
                               .copyWith(fontWeight: FontWeight.bold)),
-                    ))
+                    )),
               ],
             ),
           ),
