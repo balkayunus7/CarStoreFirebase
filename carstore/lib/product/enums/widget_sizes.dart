@@ -20,5 +20,5 @@ enum WidgetSize {
 class WidgetSizeConstants {
  static   BorderRadius get borderRadiusNormal => BorderRadius.circular(10);
  static   BorderRadius get borderRadiusBig => BorderRadius.circular(10);
- static   EdgeInsets get navigationPadding => EdgeInsets.symmetric(horizontal: 15, vertical: 10);
+ static   EdgeInsets get navigationPadding => const EdgeInsets.symmetric(horizontal: 15, vertical: 10);
 }

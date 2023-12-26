@@ -17,6 +17,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Uygulama, fotoğraf kitaplığına erişim sağlamak için bu izni kullanıyor.</string>
 	<!-- End of the Google Sign-in Section -->
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
@@ -64,6 +66,6 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<true/>
+	<string>Uygulama, kamera erişimine ihtiyaç duyuyor çünkü [kamera kullanımınızı açıklayan kısa bir açıklama].</string>
 </dict>
 </plist>

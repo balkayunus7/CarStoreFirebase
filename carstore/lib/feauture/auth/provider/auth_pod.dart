@@ -1,5 +1,7 @@
 import 'package:carstore/feauture/auth/network/firebase_auth.dart';
 import 'package:carstore/feauture/auth/network/firestore_service.dart';
+import 'package:carstore/product/constants/color_constants.dart';
+import 'package:carstore/product/enums/widget_sizes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,9 +12,9 @@ class AuthProvider extends ChangeNotifier {
   // Define private variables
   bool _isLoading = false;
   UserCredential? _userCredential;
-  Map<String, dynamic> _userData = {};
-  FirebaseAuthClass _fAuth = FirebaseAuthClass();
-  FirestoreService _fstore = FirestoreService();
+  final Map<String, dynamic> _userData = {};
+  final FirebaseAuthClass _fAuth = FirebaseAuthClass();
+  final FirestoreService _fstore = FirestoreService();
 
   // Define getters for private variables
   bool get isLoading => _isLoading;
@@ -30,6 +32,23 @@ class AuthProvider extends ChangeNotifier {
       _setLoader(false);
       throw Exception('  Email or password is wrong');
     }
+  }
+
+  void errorMessage(BuildContext context, e,String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message),
+      backgroundColor: ColorConstants.primaryRed,
+      shape: RoundedRectangleBorder(
+        borderRadius: WidgetSizeConstants.borderRadiusNormal,
+      ),
+      showCloseIcon: true,
+      onVisible: () {
+        Future.delayed(const Duration(seconds: 5), () {
+          ScaffoldMessenger.of(context).clearSnackBars();
+        });
+      },
+      ),
+    );
   }
 
   // Define method to sign up user with Firebase

@@ -10,6 +10,7 @@ class Numbers extends Equatable with IDModel, BaseFirebaseModel<Numbers> {
 
   final String? number;
   @override
+  // ignore: overridden_fields
   String? id = '';
 
   Numbers copyWith({

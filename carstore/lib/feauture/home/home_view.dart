@@ -43,7 +43,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
           children: [
             ListView(
               padding: context.padding.normal,
-              children: [
+              children: const [
                 Header(),
                 _CustomTextfield(),
                 _TagsListview(),

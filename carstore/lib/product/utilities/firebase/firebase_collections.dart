@@ -5,6 +5,7 @@ enum FirebaseCollections {
   cars,
   tag,
   recomanded,
+  // ignore: constant_identifier_names
   selected_cars,
   users;
 

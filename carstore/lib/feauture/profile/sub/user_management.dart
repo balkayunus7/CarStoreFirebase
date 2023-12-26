@@ -31,7 +31,7 @@ class _UserManagementPageState extends ConsumerState<UserManagementPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => ref.read(profilProvider.notifier).GetCurrentUser());
+    Future.microtask(() => ref.read(profilProvider.notifier).getCurrentUser());
   }
 
   final TextEditingController _nameController = TextEditingController();
@@ -50,7 +50,7 @@ class _UserManagementPageState extends ConsumerState<UserManagementPage> {
         onPressed: () {
         context.route.pop();
         },
-        preferredSize: Size.fromHeight(kToolbarHeight),
+        preferredSize: const Size.fromHeight(kToolbarHeight),
         child: const SizedBox.shrink(),
       ),
       body: Column(
@@ -66,7 +66,7 @@ class _UserManagementPageState extends ConsumerState<UserManagementPage> {
            Center(
             child: TextButton(
               onPressed: () {
-                ref.watch(profilProvider.notifier).PickImage();
+                ref.watch(profilProvider.notifier).pickImage();
               },
               child: Text(StringConstants.userManagementButton,
                           style: context.general.textTheme.bodyMedium!
@@ -94,7 +94,7 @@ class _UserManagementPageState extends ConsumerState<UserManagementPage> {
                   padding: context.padding.horizontalNormal,
                   child: ElevatedButton(
                     onPressed: () {
-                      ref.watch(profilProvider.notifier).ChangeUsername(_nameController.text,_bioController.text).then((value) => context.route.navigateToPage(ProfileView()));
+                      ref.watch(profilProvider.notifier).changeUsername(_nameController.text,_bioController.text).then((value) => context.route.navigateToPage(const ProfileView()));
                     },
                     child: Text(StringConstants.userManagementEdit,
                                 style: context.general.textTheme.bodyMedium!
@@ -109,7 +109,7 @@ class _UserManagementPageState extends ConsumerState<UserManagementPage> {
     );
   }
   else {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
  }
 }
@@ -127,7 +127,7 @@ class _CustomStatTextfield extends ConsumerWidget {
       controller: controller,
       textAlign: TextAlign.start,
       decoration: InputDecoration(
-        labelText: labelText + ' :',
+        labelText: '$labelText :',
         labelStyle: context.general.textTheme.bodyLarge!
                       .copyWith(fontWeight: FontWeight.w600,color: ref.watch(appThemeStateNotifier).isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite,
 ),

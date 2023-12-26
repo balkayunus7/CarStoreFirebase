@@ -43,7 +43,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
                 currentIndex = value;
               });
             },
-            tabs: [
+            tabs: const [
               GButton(
                 icon: Icons.home,
                 text: StringConstants.navigationMenuHome,

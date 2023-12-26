@@ -14,6 +14,7 @@ class Recommended with EquatableMixin, BaseFirebaseModel<Recommended>, IDModel {
   final String? description;
   final String? title;
   @override
+  // ignore: overridden_fields
   final String? id;
 
   @override

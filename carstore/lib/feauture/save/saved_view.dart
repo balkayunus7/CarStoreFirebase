@@ -37,11 +37,11 @@ class _SavedPageState extends ConsumerState<SavedPage> {
           iconColor: appThemeState.isDarkModeEnabled == false
               ? ColorConstants.primaryDark
               : Colors.white, 
-          preferredSize: Size.fromHeight(kToolbarHeight),
-          onPressed: () => context.route.navigateToPage(NavigationMenu()),
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          onPressed: () => context.route.navigateToPage(const NavigationMenu()),
           child: const SizedBox.shrink()),
       body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 1, mainAxisSpacing: 2),
         itemCount: cars.length,
         itemBuilder: (context, index) {

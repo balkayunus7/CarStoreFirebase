@@ -27,7 +27,7 @@ class MyApp extends ConsumerWidget {
       builder: (context, child) => AppBuilder(child).build(),
       title: StringConstants.appName,
       debugShowCheckedModeBanner: false,
-      home: SplashView(),
+      home: const SplashView(),
       theme:appThemeState.isDarkModeEnabled ? darkMode: AppTheme(context: context).theme,
       darkTheme: darkMode,
     );

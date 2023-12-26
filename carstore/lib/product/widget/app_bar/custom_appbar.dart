@@ -4,8 +4,8 @@ import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends PreferredSize {
-  CustomAppBar(
-    this.title, {
+  const CustomAppBar(
+    this.title, {super.key, 
     required this.iconColor,
     required super.preferredSize,
     required super.child,

@@ -1,3 +1,4 @@
+import 'package:carstore/product/utilities/firebase/firebase_collections.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carstore/product/models/cars.dart';
 
 class SavedNotifier extends StateNotifier<SavedState> {
-  SavedNotifier() : super(SavedState());
+  SavedNotifier() : super(const SavedState());
 
   List<Cars> savedCarsList = [];
 
@@ -15,8 +16,8 @@ class SavedNotifier extends StateNotifier<SavedState> {
     if (user != null) {
       final userUid = user.uid;
       final userDocument =
-          FirebaseFirestore.instance.collection('users').doc(userUid);
-      final selectedCarsCollection = userDocument.collection('selected_cars');
+          FirebaseFirestore.instance.collection(FirebaseCollections.users.name).doc(userUid);
+      final selectedCarsCollection = userDocument.collection(FirebaseCollections.selected_cars.name);
 
       final QuerySnapshot querySnapshot = await selectedCarsCollection.get();
 
@@ -29,10 +30,10 @@ class SavedNotifier extends StateNotifier<SavedState> {
         state = state.copyWith(selectedCars: item);
         savedCarsList = item;
       } else {
-        return null;
+        return;
       }
     } else {
-      return null;
+      return;
     }
   }
 
@@ -41,9 +42,9 @@ class SavedNotifier extends StateNotifier<SavedState> {
     if (user != null) {
       final userUid = user.uid;
       final userDocument =
-          FirebaseFirestore.instance.collection('users').doc(userUid);
+          FirebaseFirestore.instance.collection(FirebaseCollections.users.name).doc(userUid);
 
-      final selectedCarsCollection = userDocument.collection('selected_cars');
+      final selectedCarsCollection = userDocument.collection(FirebaseCollections.selected_cars.name);
       //*  same car can not be added to the list
       final querySnapshot = await selectedCarsCollection
           .where('id', isEqualTo: selectedCar.id)
@@ -60,9 +61,9 @@ class SavedNotifier extends StateNotifier<SavedState> {
     if (user != null) {
       final userUid = user.uid;
       final userDocument =
-          FirebaseFirestore.instance.collection('users').doc(userUid);
+          FirebaseFirestore.instance.collection(FirebaseCollections.users.name).doc(userUid);
 
-      final selectedCarsCollection = userDocument.collection('selected_cars');
+      final selectedCarsCollection = userDocument.collection(FirebaseCollections.selected_cars.name);
       //*  same car can not be added to the list
       final querySnapshot = await selectedCarsCollection
           .where('id', isEqualTo: selectedCar.id)
@@ -83,7 +84,7 @@ class SavedNotifier extends StateNotifier<SavedState> {
 }
 
 class SavedState extends Equatable {
-  SavedState({
+  const SavedState({
     this.selectedCars,
   });
   final List<Cars>? selectedCars;

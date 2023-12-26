@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import '../../product/enums/index.dart';
 class LoginPage extends ConsumerWidget {
-  LoginPage({Key? key}) : super(key: key);
+  LoginPage({super.key});
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -34,35 +34,21 @@ class LoginPage extends ConsumerWidget {
                     child: CustomTextfield(
                         controller: _emailController,
                         hintText: StringConstants.hintTextEmail,
-                        obscureText: false,
-                        icon: Icons.email)),
+                        iconFirst: Icons.email)),
+                 
                 Padding(
                     padding: context.padding.normal,
-                    child: CustomTextfield(
+                    child: CustomTextfieldPassword(
                         controller: _passwordController,
                         hintText: StringConstants.hintTextPassword,
-                        obscureText: true,
-                        icon: Icons.lock)),
+                        iconFirst: Icons.lock)),
                 BuyButton(
                     onPressed: () {
                       authNotifer
                           .loginUserWithFirebase(
                               // ignore: body_might_complete_normally_catch_error
                               _emailController.text, _passwordController.text).catchError((e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Login is Failed! ${e.toString()}'),
-                                  backgroundColor: ColorConstants.primaryRed,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: WidgetSizeConstants.borderRadiusNormal,
-                                  ),
-                                  showCloseIcon: true,
-                                  onVisible: () {
-                                    Future.delayed(const Duration(seconds: 5), () {
-                                      ScaffoldMessenger.of(context).clearSnackBars();
-                                    });
-                                  },
-                                  ),
-                                );
+                                authNotifer.errorMessage(context, e,'Login is Failed! ${e.toString()}');
                               })
                           .then((value) => Navigator.push(
                               context,

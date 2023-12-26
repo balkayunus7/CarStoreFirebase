@@ -29,10 +29,10 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
   @override
   void initState() {
     super.initState();
-    VideoPlayer();
+    videoPlayer();
   }
 
-  void VideoPlayer() {
+  void videoPlayer() {
     _videoPlayerController = VideoPlayerController.networkUrl(
         Uri.parse(widget.carsItem?.videoUrl ?? ''))
       ..initialize().then((value) => setState(() {}));
@@ -51,7 +51,7 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
     return Scaffold(
       // Custom App Bar
       appBar: CustomAppBar(StringConstants.appName,
-          preferredSize: Size.fromHeight(kToolbarHeight),
+          preferredSize: const Size.fromHeight(kToolbarHeight),
           iconColor: ColorConstants.primaryDark,
           onPressed: () => context.route.pop(),
           child: const SizedBox.shrink()),

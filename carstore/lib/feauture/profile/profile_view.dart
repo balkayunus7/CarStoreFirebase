@@ -37,7 +37,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   @override
   void initState() {
     super.initState();
-    ref.read(_profilProvider.notifier).GetCurrentUser();
+    ref.read(_profilProvider.notifier).getCurrentUser();
   }
 
 
@@ -46,13 +46,13 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     final currentUser = ref.watch(_profilProvider).currentUser;
     final appThemeState = ref.read(appThemeStateNotifier);
     final appStateColor=ref.watch(appThemeStateNotifier).isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite;
-    final FirebaseAuthClass _fAuth = FirebaseAuthClass();
+    final FirebaseAuthClass fAuth = FirebaseAuthClass();
     if (currentUser != null) {
       return Scaffold(
           appBar: _CustomAppBar(StringConstants.profilePageTitle,
               appThemeState.isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite,
-              preferredSize: Size.fromHeight(kToolbarHeight),
-              onPressed: () => context.route.navigateToPage(NavigationMenu()),
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              onPressed: () => context.route.navigateToPage(const NavigationMenu()),
               child: const SizedBox.shrink()),
           body: Padding(
             padding: context.padding.onlyTopNormal,
@@ -82,7 +82,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   height: WidgetSize.sizedBoxNormal.value,
                 ),
                 _BuyButton(() {
-                  context.route.navigateToPage(UserManagementPage());
+                  context.route.navigateToPage(const UserManagementPage());
                 }),
                 Container(
                   height: WidgetSize.sizedBoxBig.value,
@@ -92,13 +92,13 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   onTap: () {
                     context.route.navigateToPage(SettingsPage());
                   },
-                  child: _ProfileListtile(title: StringConstants.changePassword)),
+                  child: const _ProfileListtile(title: StringConstants.changePassword)),
                 GestureDetector(
                   onTap: () {
-                    _fAuth.signOutUser();
+                    fAuth.signOutUser();
                     context.route.navigateToPage(LoginPage());
                   },
-                  child: _ProfileListtile(
+                  child: const _ProfileListtile(
                     title: StringConstants.logoutText,
                     iconLead: Icons.logout,
                     textColor: ColorConstants.primaryDark,
@@ -109,7 +109,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             ),
           ));
     } else {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
   }
 }
@@ -235,7 +235,7 @@ class _BuyButton extends StatelessWidget {
 }
 
 class _CustomAppBar extends PreferredSize {
-  _CustomAppBar(
+  const _CustomAppBar(
     this.title, this.iconColor, {
     required super.preferredSize,
     required super.child,
@@ -261,7 +261,7 @@ class _CustomAppBar extends PreferredSize {
         color: ColorConstants.primaryOrange,
       ),
       actions: [
-        ThemeIcon(),
+        const ThemeIcon(),
         SizedBox(
           width:WidgetSize.sizedBoxNormal.value,)
       ],

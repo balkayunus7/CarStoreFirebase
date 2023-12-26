@@ -26,6 +26,7 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
   final String? description;
   final String? price;
   @override
+  // ignore: overridden_fields
   final String? id;
 
   @override

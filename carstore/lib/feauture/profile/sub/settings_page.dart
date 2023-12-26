@@ -21,8 +21,8 @@ final profilProvider =
 // ignore: must_be_immutable
 class SettingsPage extends ConsumerWidget {
    SettingsPage({super.key});
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _againPassworldController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _againPassworldController = TextEditingController();
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
@@ -34,7 +34,7 @@ class SettingsPage extends ConsumerWidget {
         onPressed: () {
         context.route.pop();
         },
-        preferredSize: Size.fromHeight(kToolbarHeight),
+        preferredSize: const Size.fromHeight(kToolbarHeight),
         child: const SizedBox.shrink(),
       ),
       body: Column(
@@ -53,11 +53,11 @@ class SettingsPage extends ConsumerWidget {
            SizedBox(height:WidgetSize.sizedBoxBig.value),
           Padding(
             padding: context.padding.horizontalNormal,
-            child: CustomTextfield(controller: _passwordController, hintText: StringConstants.passworld, obscureText: false, icon: Icons.lock),
+            child: CustomTextfieldPassword(controller: _passwordController, hintText: StringConstants.passworld, iconFirst: Icons.lock),
           ),
           Padding(
             padding: context.padding.normal,
-            child: CustomTextfield(controller: _againPassworldController, hintText: StringConstants.confirmPassword, obscureText: false, icon: Icons.lock),
+            child: CustomTextfieldPassword(controller: _againPassworldController, hintText: StringConstants.confirmPassword, iconFirst: Icons.lock),
           ),
           Padding(
             padding: context.padding.normal,
@@ -66,7 +66,7 @@ class SettingsPage extends ConsumerWidget {
               child: BuyButton(
                 onPressed: () {
                   if (_passwordController.text == _againPassworldController.text) {
-                    ref.watch(profilProvider.notifier).ChangePassword(_passwordController.text, _againPassworldController.text).then((value) => context.route.pop());
+                    ref.watch(profilProvider.notifier).changePassword(_passwordController.text, _againPassworldController.text).then((value) => context.route.pop());
                   }
                   else {
                     showAboutDialog(context: context, applicationName: StringConstants.passwordDialogText, applicationVersion:StringConstants.passwordDialogMessage);

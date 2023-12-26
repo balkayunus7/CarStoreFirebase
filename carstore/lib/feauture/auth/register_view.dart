@@ -43,24 +43,21 @@ class RegisterPage extends ConsumerWidget {
                     child: CustomTextfield(
                         controller: _nameController,
                         hintText: StringConstants.hintName,
-                        obscureText: false,
-                        icon: Icons.person)),
+                        iconFirst: Icons.person,)),
                 // Email input field
                 Padding(
                     padding: context.padding.normal,
                     child: CustomTextfield(
                         controller: _emailController,
                         hintText: StringConstants.hintTextEmail,
-                        obscureText: false,
-                        icon: Icons.email)),
+                        iconFirst: Icons.email)),
                 // Password input field
                 Padding(
                     padding: context.padding.normal,
-                    child: CustomTextfield(
+                    child: CustomTextfieldPassword(
                         controller: _passwordController,
                         hintText: StringConstants.hintTextPassword,
-                        obscureText: true,
-                        icon: Icons.lock)),
+                        iconFirst: Icons.lock)),
                 // Register button
                 BuyButton(
                     onPressed: () {
@@ -70,20 +67,7 @@ class RegisterPage extends ConsumerWidget {
                               _passwordController.text, _nameController.text)
                           // ignore: body_might_complete_normally_catch_error
                           .catchError((e) {
-                             ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Register is Failed! ${e.toString()}'),
-                                  backgroundColor: ColorConstants.primaryRed,
-                                  showCloseIcon: true,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: WidgetSizeConstants.borderRadiusNormal,
-                                  ),
-                                  onVisible: () {
-                                    Future.delayed(const Duration(seconds: 5), () {
-                                      ScaffoldMessenger.of(context).clearSnackBars();
-                                    });
-                                  },
-                                  ),
-                                );
+                            authNotifer.errorMessage(context, e, 'Register is Failed! ${e.toString()}');
                           }).
                           then((value) => Navigator.push(
                               context,

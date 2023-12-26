@@ -20,6 +20,7 @@ class Users with EquatableMixin, BaseFirebaseModel<Users>, IDModel {
   final String? password;
   final String? profilePhoto;
   @override
+  // ignore: overridden_fields
   final String? id;
 
   @override

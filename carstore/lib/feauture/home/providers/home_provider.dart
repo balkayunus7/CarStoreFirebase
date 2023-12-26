@@ -42,10 +42,10 @@ class HomeNotifier extends StateNotifier<HomeState> with FirebaseUtility {
         state = state.copyWith(cars: item);
         savedCarsList = item;
       } else {
-        return null;
+        return;
       }
     } else {
-      return null;
+      return;
     }
   }
 
