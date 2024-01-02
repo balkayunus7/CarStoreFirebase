@@ -142,7 +142,6 @@ class _TagsListview extends ConsumerWidget {
             return GestureDetector(
               onTap: () {
                 ref.watch(_homeProvider.notifier).getCarsFilteredByTag(tagItem);
-                tagItem.active = !tagItem.active!;
               },
               child: ActiveChip(
                 tag: tagItem,

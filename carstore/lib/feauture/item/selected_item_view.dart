@@ -8,20 +8,21 @@ import 'package:carstore/product/widget/icon_button/custom_icon_button.dart';
 import 'package:carstore/product/widget/text/subtitle_text.dart';
 import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../profile/providers/theme_provider.dart';
 
-
-
-class SelectedItemPage extends StatefulWidget {
+class SelectedItemPage extends ConsumerStatefulWidget {
   const SelectedItemPage({super.key, this.carsItem});
   final Cars? carsItem;
 
   @override
-  State<SelectedItemPage> createState() => _SelectedItemPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SelectedItemPageState();
 }
 
-class _SelectedItemPageState extends State<SelectedItemPage> {
+class _SelectedItemPageState extends ConsumerState<SelectedItemPage> {
   // final values
   final PageController _pageController = PageController();
   late CustomVideoPlayerController _customVideoPlayerController;
@@ -50,11 +51,15 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = ref.watch(appThemeStateNotifier);
+
     return Scaffold(
       // Custom App Bar
       appBar: CustomAppBar(StringConstants.appName,
           preferredSize: const Size.fromHeight(kToolbarHeight),
-          iconColor: ColorConstants.primaryDark,
+          iconColor: appTheme.isDarkModeEnabled
+              ? ColorConstants.primaryWhite
+              : ColorConstants.primaryDark,
           onPressed: () => context.route.pop(),
           child: const SizedBox.shrink()),
       body: SingleChildScrollView(
@@ -117,7 +122,9 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
                       children: [
                         TitleText(
                           title: widget.carsItem?.title ?? '',
-                          color: ColorConstants.primaryDark,
+                          color: appTheme.isDarkModeEnabled
+                              ? ColorConstants.primaryWhite
+                              : ColorConstants.primaryDark,
                         ),
                         Padding(
                           padding: context.padding.onlyLeftNormal,
@@ -137,7 +144,9 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
                     padding: context.padding.horizontalMedium,
                     child: SubtitleText(
                       subtitle: widget.carsItem?.description ?? '',
-                      color: ColorConstants.primaryDark,
+                      color: appTheme.isDarkModeEnabled
+                          ? ColorConstants.primaryWhite
+                          : ColorConstants.primaryDark,
                     ),
                   ),
                   // * Tags for car detail
@@ -228,7 +237,7 @@ class BuyButton extends StatelessWidget {
 }
 
 // * Tags for car detail
-class _TagWidget extends StatelessWidget {
+class _TagWidget extends ConsumerWidget {
   const _TagWidget({
     required this.iconFirst,
     required this.iconSecond,
@@ -245,7 +254,8 @@ class _TagWidget extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appTheme = ref.watch(appThemeStateNotifier);
     return Row(
       mainAxisAlignment: mainAxisAlignment,
       children: [
@@ -253,12 +263,16 @@ class _TagWidget extends StatelessWidget {
           children: [
             IconAppBar(
               onPressed: () {},
-              iconColor: ColorConstants.primaryDark,
+              iconColor: appTheme.isDarkModeEnabled
+                  ? ColorConstants.primaryWhite
+                  : ColorConstants.primaryDark,
               iconData: iconFirst,
             ),
             SubtitleText(
               subtitle: textFirstTag,
-              color: ColorConstants.primaryDark,
+              color: appTheme.isDarkModeEnabled
+                  ? ColorConstants.primaryWhite
+                  : ColorConstants.primaryDark,
             ),
           ],
         ),
@@ -266,12 +280,16 @@ class _TagWidget extends StatelessWidget {
           children: [
             IconAppBar(
               onPressed: () {},
-              iconColor: ColorConstants.primaryDark,
+              iconColor: appTheme.isDarkModeEnabled
+                  ? ColorConstants.primaryWhite
+                  : ColorConstants.primaryDark,
               iconData: iconSecond,
             ),
             SubtitleText(
               subtitle: textSecondTag,
-              color: ColorConstants.primaryDark,
+              color: appTheme.isDarkModeEnabled
+                  ? ColorConstants.primaryWhite
+                  : ColorConstants.primaryDark,
             ),
           ],
         ),

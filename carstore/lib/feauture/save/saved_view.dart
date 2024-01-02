@@ -12,6 +12,7 @@ import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
+import 'package:lottie/lottie.dart';
 
 final _savedProvider = StateNotifierProvider<SavedNotifier, SavedState>((ref) {
   return SavedNotifier();
@@ -31,6 +32,53 @@ class _SavedPageState extends ConsumerState<SavedPage> {
     // ignore: unused_local_variable
     final carss = ref.watch(_savedProvider.notifier).getSavedCars();
     final appThemeState = ref.watch(appThemeStateNotifier);
+    if (cars.isEmpty) {
+      return Scaffold(
+          appBar: CustomAppBar(StringConstants.savedPageTitle,
+              iconColor: appThemeState.isDarkModeEnabled == false
+                  ? ColorConstants.primaryDark
+                  : Colors.white,
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              onPressed: () =>
+                  context.route.navigateToPage(const NavigationMenu()),
+              child: const SizedBox.shrink()),
+          body: Column(
+            children: [
+              Center(
+                child: Lottie.asset(
+                  'assets/icon/car.json',
+                  width: context.sized.dynamicHeight(0.7),
+                  height: context.sized.dynamicWidth(0.5),
+                ),
+              ),
+              Center(
+                  child: Column(
+                children: [
+                  Padding(
+                    padding: context.padding.verticalNormal,
+                    child: TitleText(
+                      title: StringConstants.noSavedCars,
+                      color: appThemeState.isDarkModeEnabled
+                          ? ColorConstants.primaryWhite
+                          : ColorConstants.primaryOrange,
+                    ),
+                  ),
+                  Text(
+                    StringConstants.noSavedMessage,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                      color: appThemeState.isDarkModeEnabled
+                          ? ColorConstants.primaryWhite
+                          : ColorConstants.primaryDark,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              )),
+            ],
+          ));
+    }
     return Scaffold(
       appBar: CustomAppBar(StringConstants.savedPageTitle,
           iconColor: appThemeState.isDarkModeEnabled == false

@@ -18,9 +18,13 @@ class HomeNotifier extends StateNotifier<HomeState> with FirebaseUtility {
 
   Future<void> getCarsFilteredByTag(Tag selectedTag) async {
     await fetchCars();
-    final filteredCars =
-        fullCarList.where((element) => element.category == selectedTag.name).toList();
-    state = state.copyWith(cars: filteredCars);
+    selectedTag.active = !selectedTag.active!;
+    if (selectedTag.active == true) {
+      final filteredCars = fullCarList
+          .where((element) => element.category == selectedTag.name)
+          .toList();
+      state = state.copyWith(cars: filteredCars);
+    }
   }
 
   // Function to get saved cars from Firebase

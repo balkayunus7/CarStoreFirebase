@@ -42,6 +42,9 @@ class StringConstants {
 
   // Saved Page
   static const String savedPageTitle = 'Saved Cars';
+  static const String noSavedCars = 'Your cart is now empty';
+  static const String noSavedMessage=
+      "To fill your cart from CarStore's world full of opportunities you can start examining the products below";
 
   // Profile Page
   static const String profilePageTitle = 'Profile';
@@ -68,6 +71,8 @@ class StringConstants {
   static const String userManagementUsername = 'Username';
   static const String userManagementBio = 'Bio';
   static const String userManagementEdit= 'Confirm changes';
+  static const String userNotEmptyDialog= 'Username cannot be empty';
+  static const String userTextfield=  'Please write your new username!';
 
 
 }

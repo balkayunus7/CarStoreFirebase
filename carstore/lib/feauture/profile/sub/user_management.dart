@@ -1,7 +1,6 @@
 import 'dart:io';
-
+import 'package:carstore/feauture/home/navigation_menu.dart';
 import 'package:carstore/feauture/profile/providers/profile_provider.dart';
-import 'package:carstore/feauture/profile/profile_view.dart';
 import 'package:carstore/feauture/profile/providers/theme_provider.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
@@ -25,20 +24,22 @@ class UserManagementPage extends ConsumerStatefulWidget {
 }
 
 class _UserManagementPageState extends ConsumerState<UserManagementPage> {
+
+  final TextEditingController _nameController = TextEditingController(text:StringConstants.userTextfield);
+  final TextEditingController _bioController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     Future.microtask(() => ref.read(profilProvider.notifier).getCurrentUser());
   }
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _bioController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = ref.watch(profilProvider).currentUser;
     final appTheme = ref.watch(appThemeStateNotifier);
-
+    final currentUser = ref.watch(profilProvider).currentUser;
     if (currentUser != null) {
       return Scaffold(
           appBar: CustomAppBar(
@@ -77,7 +78,9 @@ class _UserManagementPageState extends ConsumerState<UserManagementPage> {
                 padding: context.padding.normal,
                 child: _CustomStatTextfield(
                   labelText: StringConstants.userManagementName,
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                   controller: _nameController,
                 ),
               ),
@@ -98,12 +101,15 @@ class _UserManagementPageState extends ConsumerState<UserManagementPage> {
                       padding: context.padding.horizontalNormal,
                       child: ElevatedButton(
                         onPressed: () {
-                          ref
-                              .watch(profilProvider.notifier)
-                              .changeUsername(
-                                  _nameController.text, _bioController.text)
-                              .then((value) => context.route
-                                  .navigateToPage(const ProfileView()));
+                          if (_nameController.text.isNotEmpty) {
+                            ref
+                                .watch(profilProvider.notifier)
+                                .changeUsername(
+                                    _nameController.text, _bioController.text)
+                                .then((value) => context.route
+                                    .navigateToPage(const NavigationMenu()));
+                          }
+                          notEmptyDialog(context);
                         },
                         child: Text(StringConstants.userManagementEdit,
                             style: context.general.textTheme.bodyMedium!
@@ -123,6 +129,17 @@ class _UserManagementPageState extends ConsumerState<UserManagementPage> {
       return const SizedBox.shrink();
     }
   }
+
+  Future<dynamic> notEmptyDialog(BuildContext context) {
+    return showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const AlertDialog(
+                                title: Text(StringConstants.userManageText,style: TextStyle(color: ColorConstants.primaryOrange),),
+                                content: Text(StringConstants.userNotEmptyDialog),
+                              );
+                            });
+  }
 }
 
 class _CustomStatTextfield extends ConsumerWidget {
@@ -139,6 +156,7 @@ class _CustomStatTextfield extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TextField(
       controller: controller,
+
       textAlign: TextAlign.start,
       decoration: InputDecoration(
         labelText: '$labelText :',

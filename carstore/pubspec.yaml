@@ -44,6 +44,7 @@ dependencies:
   image_picker: ^1.0.4
   auth_buttons: ^3.0.2
   loading_animation_widget: ^1.2.0+4
+  lottie: ^1.1.0
   shimmer: ^2.0.0
   #FIREBASE
   cloud_firestore: ^4.9.3
