@@ -6,7 +6,6 @@ import 'package:carstore/product/enums/widget_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kartal/kartal.dart';
-
 import '../../product/constants/string_constants.dart';
 
 class NavigationMenu extends StatefulWidget {

@@ -11,13 +11,17 @@ class SavedNotifier extends StateNotifier<SavedState> {
 
   List<Cars> savedCarsList = [];
 
+   
+
   Future<void> getSavedCars() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final userUid = user.uid;
-      final userDocument =
-          FirebaseFirestore.instance.collection(FirebaseCollections.users.name).doc(userUid);
-      final selectedCarsCollection = userDocument.collection(FirebaseCollections.selected_cars.name);
+      final userDocument = FirebaseFirestore.instance
+          .collection(FirebaseCollections.users.name)
+          .doc(userUid);
+      final selectedCarsCollection =
+          userDocument.collection(FirebaseCollections.selected_cars.name);
 
       final QuerySnapshot querySnapshot = await selectedCarsCollection.get();
 
@@ -41,18 +45,20 @@ class SavedNotifier extends StateNotifier<SavedState> {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final userUid = user.uid;
-      final userDocument =
-          FirebaseFirestore.instance.collection(FirebaseCollections.users.name).doc(userUid);
+      final userDocument = FirebaseFirestore.instance
+          .collection(FirebaseCollections.users.name)
+          .doc(userUid);
 
-      final selectedCarsCollection = userDocument.collection(FirebaseCollections.selected_cars.name);
+      final selectedCarsCollection =
+          userDocument.collection(FirebaseCollections.selected_cars.name);
       //*  same car can not be added to the list
       final querySnapshot = await selectedCarsCollection
           .where('id', isEqualTo: selectedCar.id)
           .get();
 
-       if(querySnapshot.docs.isNotEmpty){
-         await selectedCarsCollection.add(selectedCar.toJson());
-       }
+      if (querySnapshot.docs.isNotEmpty) {
+        await selectedCarsCollection.add(selectedCar.toJson());
+      }
     }
   }
 
@@ -60,25 +66,27 @@ class SavedNotifier extends StateNotifier<SavedState> {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final userUid = user.uid;
-      final userDocument =
-          FirebaseFirestore.instance.collection(FirebaseCollections.users.name).doc(userUid);
+      final userDocument = FirebaseFirestore.instance
+          .collection(FirebaseCollections.users.name)
+          .doc(userUid);
 
-      final selectedCarsCollection = userDocument.collection(FirebaseCollections.selected_cars.name);
+      final selectedCarsCollection =
+          userDocument.collection(FirebaseCollections.selected_cars.name);
       //*  same car can not be added to the list
       final querySnapshot = await selectedCarsCollection
           .where('id', isEqualTo: selectedCar.id)
           .get();
 
-        if (querySnapshot.docs.isNotEmpty) {
-      final docId = querySnapshot.docs.first.id;
-      await selectedCarsCollection.doc(docId).delete();
+      if (querySnapshot.docs.isNotEmpty) {
+        final docId = querySnapshot.docs.first.id;
+        await selectedCarsCollection.doc(docId).delete();
 
-      // Remove the deleted car from the local list
-      savedCarsList.removeWhere((car) => car.id == selectedCar.id);
+        // Remove the deleted car from the local list
+        savedCarsList.removeWhere((car) => car.id == selectedCar.id);
 
-      // Update the state to trigger a rebuild
-      state = state.copyWith(selectedCars: savedCarsList);
-    }
+        // Update the state to trigger a rebuild
+        state = state.copyWith(selectedCars: savedCarsList);
+      }
     }
   }
 }

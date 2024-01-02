@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
 class CustomTextfield extends StatelessWidget {
-   const CustomTextfield(
-      {super.key,
-      required this.iconFirst,
-      required this.controller,
-      required this.hintText,
-      });
+  const CustomTextfield({
+    super.key,
+    required this.iconFirst,
+    required this.controller,
+    required this.hintText,
+  });
 
   final TextEditingController controller;
   final String hintText;
@@ -37,7 +37,6 @@ class CustomTextfield extends StatelessWidget {
               width: 2,
             ),
           ),
-          
           enabled: true,
           focusedBorder: OutlineInputBorder(
             borderRadius: WidgetSizeConstants.borderRadiusNormal,
@@ -50,21 +49,21 @@ class CustomTextfield extends StatelessWidget {
   }
 }
 
-
 class CustomTextfieldPassword extends StatefulWidget {
-   const CustomTextfieldPassword(
-      {super.key,
-      required this.iconFirst,
-      required this.controller,
-      required this.hintText,
-      });
+  const CustomTextfieldPassword({
+    super.key,
+    required this.iconFirst,
+    required this.controller,
+    required this.hintText,
+  });
 
   final TextEditingController controller;
   final String hintText;
   final IconData iconFirst;
 
   @override
-  State<CustomTextfieldPassword> createState() => _CustomTextfieldPasswordState();
+  State<CustomTextfieldPassword> createState() =>
+      _CustomTextfieldPasswordState();
 }
 
 class _CustomTextfieldPasswordState extends State<CustomTextfieldPassword> {
@@ -95,7 +94,7 @@ class _CustomTextfieldPasswordState extends State<CustomTextfieldPassword> {
           suffixIcon: GestureDetector(
             onTap: () {
               setState(() {
-                _obscureText=!_obscureText;
+                _obscureText = !_obscureText;
               });
             },
             child: Icon(

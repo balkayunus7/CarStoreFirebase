@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+
+
 class SelectedItemPage extends StatefulWidget {
   const SelectedItemPage({super.key, this.carsItem});
   final Cars? carsItem;
@@ -20,7 +22,7 @@ class SelectedItemPage extends StatefulWidget {
 }
 
 class _SelectedItemPageState extends State<SelectedItemPage> {
-  // final values 
+  // final values
   final PageController _pageController = PageController();
   late CustomVideoPlayerController _customVideoPlayerController;
   late VideoPlayerController _videoPlayerController;
@@ -113,19 +115,19 @@ class _SelectedItemPageState extends State<SelectedItemPage> {
                     ),
                     child: Row(
                       children: [
-                        Padding(
-                          padding: context.padding.onlyRightMedium,
-                          child: TitleText(
-                            title: widget.carsItem?.title ?? '',
-                            color: ColorConstants.primaryDark,
-                          ),
+                        TitleText(
+                          title: widget.carsItem?.title ?? '',
+                          color: ColorConstants.primaryDark,
                         ),
-                        Text(
-                          widget.carsItem?.price ?? '',
-                          style: context.general.textTheme.headlineMedium
-                              ?.copyWith(
-                            color: ColorConstants.primaryOrange,
-                            fontWeight: FontWeight.bold,
+                        Padding(
+                          padding: context.padding.onlyLeftNormal,
+                          child: Text(
+                            widget.carsItem?.price ?? '',
+                            style: context.general.textTheme.headlineMedium
+                                ?.copyWith(
+                              color: ColorConstants.primaryOrange,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],

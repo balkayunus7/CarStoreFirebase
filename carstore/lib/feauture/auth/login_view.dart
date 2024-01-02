@@ -3,6 +3,7 @@ import 'package:carstore/feauture/auth/register_view.dart';
 import 'package:carstore/feauture/auth/sub_view.dart/custom_textform.dart';
 import 'package:carstore/feauture/home/navigation_menu.dart';
 import 'package:carstore/feauture/item/selected_item_view.dart';
+import 'package:carstore/feauture/profile/sub/settings_page.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/enums/image_constants.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
 import '../../product/enums/index.dart';
+
 class LoginPage extends ConsumerWidget {
   LoginPage({super.key});
   final TextEditingController _emailController = TextEditingController();
@@ -23,7 +25,8 @@ class LoginPage extends ConsumerWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: context.padding.low.copyWith(top: WidgetSize.paddingAuthTop.value),
+          padding: context.padding.low
+              .copyWith(top: WidgetSize.paddingAuthTop.value),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -35,27 +38,46 @@ class LoginPage extends ConsumerWidget {
                         controller: _emailController,
                         hintText: StringConstants.hintTextEmail,
                         iconFirst: Icons.email)),
-                 
                 Padding(
                     padding: context.padding.normal,
                     child: CustomTextfieldPassword(
                         controller: _passwordController,
                         hintText: StringConstants.hintTextPassword,
                         iconFirst: Icons.lock)),
+                 Padding(
+                   padding:context.padding.onlyBottomLow.add(context.padding.onlyRightNormal),
+                   child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                     children: [
+                       GestureDetector(
+                         onTap: () {
+                           Navigator.push(
+                               context,
+                               MaterialPageRoute(
+                                   builder: (context) => const SettingsPage()));
+                         },
+                         child: Text(StringConstants.forgotPassword,
+                             style: context.general.textTheme.bodyMedium!
+                                 .copyWith(fontWeight: FontWeight.bold)),
+                       ),
+                     ],
+                   ),
+                 ),       
                 BuyButton(
                     onPressed: () {
                       authNotifer
                           .loginUserWithFirebase(
-                              // ignore: body_might_complete_normally_catch_error
-                              _emailController.text, _passwordController.text).catchError((e) {
-                                authNotifer.errorMessage(context, e,'Login is Failed! ${e.toString()}');
-                              })
-                          .then((value) => Navigator.push(
+                              _emailController.text,
+                              _passwordController.text)
+                          // ignore: body_might_complete_normally_catch_error
+                          .catchError((e) {
+                        authNotifer.errorMessage(
+                            context, e, 'Login is Failed! ${e.toString()}');
+                      }).then((value) => Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const NavigationMenu()))
-                                      );
+                                      const NavigationMenu())));
                     },
                     iconText: StringConstants.login),
                 Padding(

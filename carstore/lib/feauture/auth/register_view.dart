@@ -15,7 +15,7 @@ import 'package:kartal/kartal.dart';
 // Define RegisterPage class which extends ConsumerWidget
 class RegisterPage extends ConsumerWidget {
   RegisterPage({super.key});
-  
+
   // Define text editing controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -30,7 +30,8 @@ class RegisterPage extends ConsumerWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: context.padding.low.copyWith(top: WidgetSize.paddingAuthTop.value),
+          padding: context.padding.low
+              .copyWith(top: WidgetSize.paddingAuthTop.value),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -41,9 +42,10 @@ class RegisterPage extends ConsumerWidget {
                 Padding(
                     padding: context.padding.normal,
                     child: CustomTextfield(
-                        controller: _nameController,
-                        hintText: StringConstants.hintName,
-                        iconFirst: Icons.person,)),
+                      controller: _nameController,
+                      hintText: StringConstants.hintName,
+                      iconFirst: Icons.person,
+                    )),
                 // Email input field
                 Padding(
                     padding: context.padding.normal,
@@ -67,9 +69,9 @@ class RegisterPage extends ConsumerWidget {
                               _passwordController.text, _nameController.text)
                           // ignore: body_might_complete_normally_catch_error
                           .catchError((e) {
-                            authNotifer.errorMessage(context, e, 'Register is Failed! ${e.toString()}');
-                          }).
-                          then((value) => Navigator.push(
+                        authNotifer.errorMessage(
+                            context, e, 'Register is Failed! ${e.toString()}');
+                      }).then((value) => Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => LoginPage())));
@@ -110,7 +112,7 @@ class _Header extends StatelessWidget {
     return Column(
       children: [
         // Spacing
-        SizedBox(height:WidgetSize.sizedBoxNormal.value),
+        SizedBox(height: WidgetSize.sizedBoxNormal.value),
         // Logo
         Padding(
           padding: context.padding.onlyBottomNormal,

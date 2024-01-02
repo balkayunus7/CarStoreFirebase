@@ -12,7 +12,7 @@ class TitleText extends StatelessWidget {
     return Text(
       title,
       style: context.general.textTheme.titleLarge
-          ?.copyWith(fontWeight: FontWeight.bold, fontSize: 25, color: color),
+          ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20, color: color),
     );
   }
 }

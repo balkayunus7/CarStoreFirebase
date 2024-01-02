@@ -1,9 +1,10 @@
 import 'package:carstore/feauture/auth/login_view.dart';
-import 'package:carstore/feauture/splash/splash_provider.dart';
+import 'package:carstore/feauture/home/navigation_menu.dart';
 import 'package:carstore/product/constants/color_constants.dart';
 import 'package:carstore/product/constants/string_constants.dart';
 import 'package:carstore/product/enums/image_constants.dart';
 import 'package:carstore/product/widget/text/wavy_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
@@ -15,23 +16,20 @@ class SplashView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _SplashViewState();
 }
 
-class _SplashViewState extends ConsumerState<SplashView>
-    with _SplashViewListenMixin {
-  // Splash Provider defined
-  final splashProvider =
-      StateNotifierProvider<SplashProvider, SplashState>((ref) {
-    return SplashProvider();
-  });
-
+class _SplashViewState extends ConsumerState<SplashView> {
   @override
   void initState() {
     super.initState();
-    ref.read(splashProvider.notifier).checkAppliactionVersion('1.0.0');
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    checkStatus();
   }
 
   @override
   Widget build(BuildContext context) {
-    listenAndNavigate(splashProvider);
     return Scaffold(
       backgroundColor: ColorConstants.primaryOrange,
       body: Center(
@@ -48,25 +46,16 @@ class _SplashViewState extends ConsumerState<SplashView>
       ),
     );
   }
-}
 
-mixin _SplashViewListenMixin on ConsumerState<SplashView> {
-  void listenAndNavigate(
-    StateNotifierProvider<SplashProvider, SplashState> provider,
-  ) {
-    ref.listen(provider, (previous, next) {
-      if (next.isRequriedForceUpdate ?? false) {
-        //  showAboutDialog(context: context);
-        return;
-      }
-      if (next.isRedirectHome != null) {
-        if (next.isRedirectHome!) {
-          Future.delayed(const Duration(milliseconds: 2200), () {
-            context.route.navigateToPage(LoginPage());
-          });
-        } else {
-          // false
-        }
+  void checkStatus() async {
+    Future.delayed(const Duration(seconds: 2), () {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const NavigationMenu()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
       }
     });
   }

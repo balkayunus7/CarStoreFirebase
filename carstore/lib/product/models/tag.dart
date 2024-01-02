@@ -10,7 +10,7 @@ class Tag with EquatableMixin, IDModel, BaseFirebaseModel<Tag> {
   });
 
   final String? name;
-  final bool? active;
+  bool? active;
   @override
   // ignore: overridden_fields
   final String? id;

@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
 
-
 final _savedProvider = StateNotifierProvider<SavedNotifier, SavedState>((ref) {
   return SavedNotifier();
 });
@@ -33,10 +32,10 @@ class _SavedPageState extends ConsumerState<SavedPage> {
     final carss = ref.watch(_savedProvider.notifier).getSavedCars();
     final appThemeState = ref.watch(appThemeStateNotifier);
     return Scaffold(
-      appBar: CustomAppBar(StringConstants.savedPageTitle,  
+      appBar: CustomAppBar(StringConstants.savedPageTitle,
           iconColor: appThemeState.isDarkModeEnabled == false
               ? ColorConstants.primaryDark
-              : Colors.white, 
+              : Colors.white,
           preferredSize: const Size.fromHeight(kToolbarHeight),
           onPressed: () => context.route.navigateToPage(const NavigationMenu()),
           child: const SizedBox.shrink()),
@@ -51,7 +50,9 @@ class _SavedPageState extends ConsumerState<SavedPage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    context.route.navigateToPage(SelectedItemPage(carsItem: cars[index],));
+                    context.route.navigateToPage(SelectedItemPage(
+                      carsItem: cars[index],
+                    ));
                   },
                   child: Card(
                     color: appThemeState.isDarkModeEnabled == false
@@ -91,7 +92,10 @@ class _SavedPageState extends ConsumerState<SavedPage> {
                         onPressed: () {
                           ref
                               .read(_savedProvider.notifier)
-                              .deleteSavedCar(cars[index]).then((value) => ref.read(_savedProvider.notifier).getSavedCars());
+                              .deleteSavedCar(cars[index])
+                              .then((value) => ref
+                                  .read(_savedProvider.notifier)
+                                  .getSavedCars());
                         },
                         iconColor: ColorConstants.primaryRed,
                         iconData: Icons.favorite)),

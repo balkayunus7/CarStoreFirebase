@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
   Cars({
     this.category,
-    this.categoryId,
     this.title,
     this.backgroundImage,
     this.backgroundImage2,
@@ -17,7 +16,6 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
   });
 
   final String? category;
-  final String? categoryId;
   final String? title;
   final String? videoUrl;
   final String? backgroundImage;
@@ -32,7 +30,6 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
   @override
   List<Object?> get props => [
         category,
-        categoryId,
         videoUrl,
         title,
         backgroundImage,
@@ -45,7 +42,6 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
 
   Cars copyWith({
     String? category,
-    String? categoryId,
     String? title,
     String? videoUrl,
     String? backgroundImage,
@@ -57,7 +53,6 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
   }) {
     return Cars(
       category: category ?? this.category,
-      categoryId: categoryId ?? this.categoryId,
       title: title ?? this.title,
       videoUrl: videoUrl ?? this.videoUrl,
       backgroundImage2: backgroundImage2 ?? this.backgroundImage2,
@@ -72,7 +67,6 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
   Map<String, dynamic> toJson() {
     return {
       'category': category,
-      'categoryId': categoryId,
       'title': title,
       'videoUrl': videoUrl,
       'backgroundImage': backgroundImage,
@@ -88,7 +82,6 @@ class Cars extends Equatable with IDModel, BaseFirebaseModel<Cars> {
   Cars fromJson(Map<String, dynamic> json) {
     return Cars(
       category: json['category'] as String?,
-      categoryId: json['categoryId'] as String?,
       title: json['title'] as String?,
       videoUrl: json['videoUrl'] as String?,
       backgroundImage: json['backgroundImage'] as String?,

@@ -13,72 +13,96 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
 
-final profilProvider =
+// * State notifier provider created to be used in the profile page
+final _profilProvider =
     StateNotifierProvider<ProfileNotifier, ProfileState>((ref) {
   return ProfileNotifier();
 });
 
-// ignore: must_be_immutable
-class SettingsPage extends ConsumerWidget {
-   SettingsPage({super.key});
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _againPassworldController = TextEditingController();
+class SettingsPage extends ConsumerStatefulWidget {
+  const SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-    final appTheme= ref.watch(appThemeStateNotifier);
+  ConsumerState<ConsumerStatefulWidget> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends ConsumerState<SettingsPage> {
+
+  final TextEditingController _emailController = TextEditingController();
+  
+   @override
+  void initState() {
+    super.initState();
+    ref.read(_profilProvider.notifier).getCurrentUser();
+  }
+  @override
+   Widget build(BuildContext context) {
+    final appTheme = ref.watch(appThemeStateNotifier);
     return Scaffold(
-      appBar: CustomAppBar(
-        'Settings',
-        iconColor: appTheme.isDarkModeEnabled ? ColorConstants.primaryWhite:ColorConstants.primaryTextButton,
-        onPressed: () {
-        context.route.pop();
-        },
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: const SizedBox.shrink(),
-      ),
-      body: Column(
-        children: [
-          Center(
-            child:Padding(
-              padding: context.padding.normal,
-              child: IconConstants.lock.toImage,
-            ),
-          ),
-          TitleText(title: StringConstants.titlePassword,color:appTheme.isDarkModeEnabled ? ColorConstants.primaryWhite:ColorConstants.primaryOrange),
-          Padding(
-            padding: context.padding.normal,
-            child: SubtitleText(subtitle: StringConstants.titlePasswordMessage, color:appTheme.isDarkModeEnabled ? ColorConstants.primaryWhite:ColorConstants.primaryDark),
-          ),
-           SizedBox(height:WidgetSize.sizedBoxBig.value),
-          Padding(
-            padding: context.padding.horizontalNormal,
-            child: CustomTextfieldPassword(controller: _passwordController, hintText: StringConstants.passworld, iconFirst: Icons.lock),
-          ),
-          Padding(
-            padding: context.padding.normal,
-            child: CustomTextfieldPassword(controller: _againPassworldController, hintText: StringConstants.confirmPassword, iconFirst: Icons.lock),
-          ),
-          Padding(
-            padding: context.padding.normal,
-            child: Padding(
-              padding: context.padding.horizontalMedium,
-              child: BuyButton(
-                onPressed: () {
-                  if (_passwordController.text == _againPassworldController.text) {
-                    ref.watch(profilProvider.notifier).changePassword(_passwordController.text, _againPassworldController.text).then((value) => context.route.pop());
-                  }
-                  else {
-                    showAboutDialog(context: context, applicationName: StringConstants.passwordDialogText, applicationVersion:StringConstants.passwordDialogMessage);
-                  }
-                },
-                iconText:StringConstants.iconPasswordtext,
+        appBar: CustomAppBar(
+          'Settings',
+          iconColor: appTheme.isDarkModeEnabled
+              ? ColorConstants.primaryWhite
+              : ColorConstants.primaryOrange,
+          onPressed: () {
+            context.route.pop();
+          },
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: const SizedBox.shrink(),
+        ),
+        body: Column(
+          children: [
+            Center(
+              child: Padding(
+                padding: context.padding.normal,
+                child: IconConstants.lock.toImage,
               ),
             ),
-          ),
-        ],
-      )
-
-    );
+            TitleText(
+                title: StringConstants.titlePassword,
+                color: appTheme.isDarkModeEnabled
+                    ? ColorConstants.primaryWhite
+                    : ColorConstants.primaryOrange),
+            Padding(
+              padding: context.padding.normal,
+              child: SubtitleText(
+                  subtitle: StringConstants.titlePasswordMessage,
+                  color: appTheme.isDarkModeEnabled
+                      ? ColorConstants.primaryWhite
+                      : ColorConstants.primaryDark),
+            ),
+            SizedBox(height: WidgetSize.sizedBoxBig.value),
+            Padding(
+              padding: context.padding.horizontalNormal,
+              child: CustomTextfield(
+                  controller: _emailController,
+                  hintText: StringConstants.hintTextEmail,
+                  iconFirst: Icons.email_outlined),
+            ),
+            Padding(
+              padding: context.padding.normal,
+              child: Padding(
+                padding: context.padding.horizontalMedium,
+                child: BuyButton(
+                  onPressed: () {
+                       ref
+                          .watch(_profilProvider.notifier)
+                          .changePassword(_emailController.text.trim(),
+                              )
+                          .then((value) => showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AlertDialog(
+                              title: Text(StringConstants.titlePassword),
+                              content: Text(StringConstants.titlePasswordMessage),
+                            );
+                          }).then((value) => context.route.pop())); 
+                    } ,
+                  iconText: StringConstants.iconPasswordtext,
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }

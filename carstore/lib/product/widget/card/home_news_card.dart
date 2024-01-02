@@ -1,12 +1,13 @@
 import 'package:carstore/feauture/item/selected_item_view.dart';
 import 'package:carstore/product/constants/color_constants.dart';
-import 'package:carstore/product/enums/widget_sizes.dart';
 import 'package:carstore/product/models/cars.dart';
 import 'package:carstore/product/widget/text/subtitle_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
 
-class HomeNewsCard extends StatelessWidget {
+
+class HomeNewsCard extends ConsumerWidget {
   const HomeNewsCard(
       {required this.carsItem, super.key, required this.onPressed});
 
@@ -14,7 +15,7 @@ class HomeNewsCard extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (carsItem == null) return const SizedBox.shrink();
 
     return Stack(
@@ -64,9 +65,9 @@ class HomeNewsCard extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: onPressed,
-                  icon: Icon(Icons.favorite,
-                      size: WidgetSize.iconNormal.value,
-                      color: ColorConstants.primaryRed),
+                  icon: const Icon(
+                          Icons.favorite,
+                        ),
                 ),
               ],
             ),

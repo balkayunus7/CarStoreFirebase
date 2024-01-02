@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 // Define AuthProvider which extends ChangeNotifier
 class AuthProvider extends ChangeNotifier {
   // Define private variables
@@ -30,23 +29,24 @@ class AuthProvider extends ChangeNotifier {
       return _userCredential!;
     } catch (e) {
       _setLoader(false);
-      throw Exception('  Email or password is wrong');
+      throw Exception('Email or password is wrong');
     }
   }
 
-  void errorMessage(BuildContext context, e,String message) {
+  void errorMessage(BuildContext context, e, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message),
-      backgroundColor: ColorConstants.primaryRed,
-      shape: RoundedRectangleBorder(
-        borderRadius: WidgetSizeConstants.borderRadiusNormal,
-      ),
-      showCloseIcon: true,
-      onVisible: () {
-        Future.delayed(const Duration(seconds: 5), () {
-          ScaffoldMessenger.of(context).clearSnackBars();
-        });
-      },
+      SnackBar(
+        content: Text(message),
+        backgroundColor: ColorConstants.primaryRed,
+        shape: RoundedRectangleBorder(
+          borderRadius: WidgetSizeConstants.borderRadiusNormal,
+        ),
+        showCloseIcon: true,
+        onVisible: () {
+          Future.delayed(const Duration(seconds: 5), () {
+            ScaffoldMessenger.of(context).clearSnackBars();
+          });
+        },
       ),
     );
   }

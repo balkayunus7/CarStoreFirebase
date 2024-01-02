@@ -11,7 +11,7 @@ import 'package:carstore/product/widget/text/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kartal/kartal.dart';
-
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../product/enums/index.dart';
 
 // * State notifier provider created to be used
@@ -28,7 +28,6 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _HomeViewState extends ConsumerState<HomeView> {
-  // *  It is used to capture car data in the firebase in the provider object.
   @override
   void initState() {
     super.initState();
@@ -53,7 +52,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ],
             ),
             if (ref.watch(_homeProvider).isLoading ?? false)
-              const Center(child: CircularProgressIndicator()),
+              Center(
+                  child: LoadingAnimationWidget.twoRotatingArc(
+                color: ColorConstants.primaryOrange,
+                size: 50,
+              )),
           ],
         ),
       ),
@@ -136,15 +139,16 @@ class _TagsListview extends ConsumerWidget {
         itemCount: tagItems.length,
         itemBuilder: (context, index) {
           final tagItem = tagItems[index];
-          if (tagItem.active ?? false) {
-            return ActiveChip(
-              tag: tagItem,
+            return GestureDetector(
+              onTap: () {
+                ref.watch(_homeProvider.notifier).getCarsFilteredByTag(tagItem);
+                tagItem.active = !tagItem.active!;
+              },
+              child: ActiveChip(
+                tag: tagItem,
+              ),
             );
           }
-          return PassiveChip(
-            tag: tagItem,
-          );
-        },
       ),
     );
   }
@@ -189,9 +193,11 @@ class _RecommendedHeader extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-           TitleText(
+          TitleText(
             title: StringConstants.homeTitle,
-            color: appThemeState.isDarkModeEnabled == false ? ColorConstants.primaryDark :ColorConstants.primaryWhite,
+            color: appThemeState.isDarkModeEnabled == false
+                ? ColorConstants.primaryDark
+                : ColorConstants.primaryWhite,
           ),
           TextButton(
             onPressed: () {},

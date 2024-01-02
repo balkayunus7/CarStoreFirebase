@@ -1,3 +1,4 @@
+
 import 'package:carstore/feauture/auth/network/firestore_service.dart';
 import 'package:carstore/product/models/users.dart';
 import 'package:carstore/product/utilities/firebase/firebase_collections.dart';
@@ -18,7 +19,10 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
     if (user != null) {
       final userUid = user.uid;
       // Updating profile photo in Firestore
-      await FirebaseFirestore.instance.collection(FirebaseCollections.users.name).doc(userUid).update(
+      await FirebaseFirestore.instance
+          .collection(FirebaseCollections.users.name)
+          .doc(userUid)
+          .update(
         {'profilePhoto': newProfilePhoto},
       );
       // Updating state
@@ -58,40 +62,34 @@ class ProfileNotifier extends StateNotifier<ProfileState> with FirebaseUtility {
   }
 
   // Method to change password
-  Future<void> changePassword(String oldPassword, String newPassword) async {
-    final user = FirebaseAuth.instance.currentUser;
-    final fstore=FirestoreService();
-
-    if (user != null) {
+  Future<void> changePassword(email) async {
+    final instance = FirebaseAuth.instance;
       try {
         // Updating password in Firebase Auth
-        await user.updatePassword(newPassword);
-        final userUid = user.uid;
+        await instance.sendPasswordResetEmail(email: email);
         // Updating password in Firestore
-        fstore.updateDataToFirestore({'password': newPassword},FirebaseCollections.users.name, userUid);
-
       } on FirebaseAuthException catch (e) {
         if (kDebugMode) {
           print(e.message);
         }
       }
-    }
   }
 
   // Method to change username
-  Future<void> changeUsername(String name,String bio) async {
+  Future<void> changeUsername(String name, String bio) async {
     final user = FirebaseAuth.instance.currentUser;
-    final fstore=FirestoreService();
+    final fstore = FirestoreService();
     if (user != null) {
       try {
         final userUid = user.uid;
         // Updating username and bio in Firestore
-        fstore.updateDataToFirestore({'name': name,'bio':bio},FirebaseCollections.users.name, userUid); 
+        fstore.updateDataToFirestore({'name': name, 'bio': bio},
+            FirebaseCollections.users.name, userUid);
       } catch (e) {
         if (kDebugMode) {
           print(e);
-        } 
-      }   
+        }
+      }
     }
   }
 }
@@ -109,7 +107,7 @@ class ProfileState extends Equatable {
 
   // Method to copy ProfileState with new values
   ProfileState copyWith({
-    Users? currentUser, 
+    Users? currentUser,
     String? newProfilePhoto,
   }) {
     return ProfileState(
